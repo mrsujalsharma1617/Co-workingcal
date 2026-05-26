@@ -1,929 +1,302 @@
+Copy-paste this as one full HTML file. It includes the **Excel export** directly.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>CoWork Financial Model</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --bg:#f5f2ed;
-  --ink:#1a1814;
-  --surface:#ffffff;
-  --border:#d6d0c7;
-  --accent:#e85d26;
-  --accent2:#2d6a4f;
-  --blue:#1a4fa0;
-  --muted:#7a7570;
-  --light:#ebe7e0;
-  --mono:'IBM Plex Mono',monospace;
-  --sans:'IBM Plex Sans',sans-serif;
-  --display:'Syne',sans-serif;
+  --bg:#f5f2ed;--ink:#1a1814;--surface:#fff;--border:#d6d0c7;
+  --accent:#e85d26;--green:#2d6a4f;--blue:#1a4fa0;--muted:#7a7570;
+  --display:'Syne',sans-serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;font-size:14px}
-
-/* HEADER */
-header{
-  background:var(--ink);color:var(--bg);
-  padding:0 2.5rem;height:58px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-}
-.logo{font-family:var(--display);font-size:1.2rem;font-weight:800;letter-spacing:-.02em}
-.logo span{color:var(--accent)}
-.header-btns{display:flex;gap:.5rem}
-.hbtn{
-  background:transparent;border:1px solid rgba(255,255,255,.25);
-  color:rgba(255,255,255,.7);font-family:var(--sans);font-size:.75rem;
-  padding:5px 14px;border-radius:4px;cursor:pointer;transition:.15s;
-}
-.hbtn:hover,.hbtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* TABS */
-.tabs{
-  background:var(--surface);border-bottom:2px solid var(--ink);
-  display:flex;gap:0;overflow-x:auto;
-}
-.tab{
-  padding:12px 20px;font-family:var(--display);font-size:.8rem;font-weight:700;
-  letter-spacing:.04em;text-transform:uppercase;cursor:pointer;
-  border-right:1px solid var(--border);white-space:nowrap;
-  transition:.15s;color:var(--muted);
-}
-.tab:hover{background:var(--light);color:var(--ink)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px}
+header{height:58px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10}
+.logo{font-family:var(--display);font-weight:800;font-size:1.2rem}.logo span{color:var(--accent)}
+button{cursor:pointer}
+.hbtn{background:var(--accent);border:0;color:#fff;border-radius:6px;padding:8px 16px;font-weight:700}
+.tabs{display:flex;overflow:auto;background:#fff;border-bottom:2px solid var(--ink)}
+.tab{padding:13px 18px;border-right:1px solid var(--border);font-family:var(--display);font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--muted)}
 .tab.active{background:var(--ink);color:var(--bg)}
-
-/* LAYOUT */
-.page{display:none;max-width:1400px;margin:0 auto;padding:2rem 2.5rem 4rem}
+.page{display:none;max-width:1350px;margin:auto;padding:28px}
 .page.active{display:block}
-
-/* SECTION */
-.section{margin-bottom:2rem}
-.section-title{
-  font-family:var(--display);font-size:.72rem;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--accent);border-bottom:1px solid var(--border);
-  padding-bottom:.5rem;margin-bottom:1.25rem;
-}
-
-/* GRID */
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-@media(max-width:800px){.grid-3,.grid-4{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}}
-
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem}
-
-/* FIELD */
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:4px;letter-spacing:.02em}
-.field .sub{font-size:.67rem;color:var(--muted);opacity:.7;margin-top:2px}
-.input-wrap{position:relative;display:flex;align-items:center}
-.input-wrap .pfx,.input-wrap .sfx{
-  position:absolute;font-family:var(--mono);font-size:.8rem;color:var(--muted);pointer-events:none
-}
-.input-wrap .pfx{left:10px}
-.input-wrap .sfx{right:10px}
-input[type=number],select{
-  width:100%;background:var(--bg);border:1px solid var(--border);
-  border-radius:6px;padding:8px 36px 8px 10px;
-  font-family:var(--mono);font-size:.88rem;color:var(--ink);outline:none;
-  transition:border-color .15s;-moz-appearance:textfield;
-}
-input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
-input[type=number]:focus,select:focus{border-color:var(--accent)}
-.has-pfx input{padding-left:26px}
-select{padding-right:10px;cursor:pointer}
-
-/* SLIDER */
-.slider-row{display:flex;align-items:center;gap:10px;margin-top:4px}
-.slider-val{font-family:var(--mono);font-size:.82rem;font-weight:500;color:var(--accent);min-width:48px;text-align:right}
-input[type=range]{
-  -webkit-appearance:none;flex:1;height:3px;
-  background:var(--border);border-radius:2px;outline:none;cursor:pointer
-}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:15px;height:15px;
-  background:var(--accent);border-radius:50%;
-  box-shadow:0 0 0 3px rgba(232,93,38,.2);
-}
-
-/* KPI STRIP */
-.kpi-strip{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
-  background:var(--ink);border:2px solid var(--ink);
-  border-radius:8px;overflow:hidden;margin-bottom:2rem;
-}
-@media(max-width:900px){.kpi-strip{grid-template-columns:repeat(3,1fr)}}
-.kpi{background:var(--surface);padding:1.1rem 1rem;text-align:center}
-.kpi .k-label{font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-.kpi .k-val{font-family:var(--display);font-size:1.55rem;font-weight:800;color:var(--ink);line-height:1}
-.kpi .k-val.green{color:var(--accent2)}
-.kpi .k-val.orange{color:var(--accent)}
-.kpi .k-val.blue{color:var(--blue)}
-.kpi .k-sub{font-size:.65rem;color:var(--muted);margin-top:.2rem}
-
-/* RESULT PANEL */
-.result-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
-.result-box{
-  background:var(--ink);color:var(--bg);border-radius:8px;
-  padding:1.5rem;text-align:center;position:relative;overflow:hidden;
-}
-.result-box::after{
-  content:'';position:absolute;bottom:-20px;right:-20px;
-  width:80px;height:80px;border-radius:50%;
-  background:rgba(255,255,255,.04);
-}
-.result-box .r-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:.6rem}
-.result-box .r-val{font-family:var(--display);font-size:2.6rem;font-weight:800;line-height:1;color:var(--accent)}
-.result-box.green .r-val{color:#4ade80}
-.result-box .r-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:.35rem}
-
-/* TABLE */
-.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin-top:1rem}
-table{width:100%;border-collapse:collapse;font-size:.75rem}
-thead th{
-  background:var(--ink);color:var(--bg);
-  padding:8px 12px;text-align:right;white-space:nowrap;
-  font-family:var(--display);font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;
-}
-thead th:first-child{text-align:left}
-tbody td{
-  padding:7px 12px;text-align:right;border-top:1px solid var(--border);
-  font-family:var(--mono);font-size:.74rem;white-space:nowrap;
-}
-tbody td:first-child{text-align:left;font-family:var(--sans);color:var(--muted);font-size:.75rem}
-tbody tr:hover{background:var(--light)}
-tbody tr.subtotal td{background:rgba(232,93,38,.06);font-weight:600;color:var(--accent)}
-tbody tr.total td{background:var(--ink);color:var(--bg);font-weight:700}
-.neg{color:#dc2626}
-.pos{color:var(--accent2)}
-
-/* CHART */
-.chart-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-top:1.25rem}
-.chart-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
-canvas{max-height:280px}
-
-/* OCCUPANCY VIZ */
-.occ-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:.75rem}
-.occ-cell{
-  border-radius:3px;height:32px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:.6rem;font-weight:500;
-  transition:.2s;cursor:default;
-}
-
-/* PRINT btn */
-.export-btn{
-  background:var(--accent2);color:#fff;border:none;
-  font-family:var(--display);font-size:.75rem;font-weight:700;letter-spacing:.05em;
-  padding:8px 20px;border-radius:6px;cursor:pointer;transition:.15s;
-}
-.export-btn:hover{opacity:.85}
-
-/* BADGE */
-.badge{
-  display:inline-block;padding:2px 8px;border-radius:12px;
-  font-size:.63rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
-  background:rgba(232,93,38,.12);color:var(--accent);border:1px solid rgba(232,93,38,.3);
-  margin-left:8px;vertical-align:middle;
-}
-
-.divider{height:1px;background:var(--border);margin:1.5rem 0}
-
-/* SCALE TOGGLE */
-.scale-group{display:flex;gap:4px;align-items:center;font-size:.72rem;color:var(--muted);margin-bottom:1rem}
-.scale-group button{
-  background:var(--surface);border:1px solid var(--border);
-  color:var(--muted);font-family:var(--sans);font-size:.72rem;
-  padding:3px 10px;border-radius:4px;cursor:pointer;transition:.12s;
-}
-.scale-group button.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.page.active{animation:fadeIn .3s ease both}
+.section-title{font-family:var(--display);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px}
+.field{margin-bottom:14px}.field label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:5px;font-weight:600}
+input,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:var(--mono)}
+.slider-row{display:flex;align-items:center;gap:10px}.slider-val{font-family:var(--mono);min-width:52px;color:var(--accent);text-align:right}
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--ink);border:2px solid var(--ink);border-radius:8px;overflow:hidden;margin:20px 0}
+.kpi{background:#fff;text-align:center;padding:18px 10px}.k-label{font-size:.62rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:.1em}.k-val{font-family:var(--display);font-size:1.45rem;font-weight:800;margin-top:5px}.orange{color:var(--accent)}.green{color:var(--green)}.blue{color:var(--blue)}
+.tbl-wrap{overflow:auto;border:1px solid var(--border);border-radius:8px;background:#fff;margin-top:16px}
+table{width:100%;border-collapse:collapse;font-size:.75rem}th{background:var(--ink);color:var(--bg);padding:9px;text-align:right;font-family:var(--display);font-size:.65rem;text-transform:uppercase}th:first-child,td:first-child{text-align:left}
+td{padding:8px 10px;border-top:1px solid var(--border);text-align:right;font-family:var(--mono)}td:first-child{font-family:var(--sans);color:var(--muted)}
+.subtotal td{background:rgba(232,93,38,.08);font-weight:800;color:var(--accent)}.neg{color:#dc2626}.pos{color:var(--green)}
+.chart-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;margin-top:18px}.chart-label{font-size:.7rem;font-weight:800;text-transform:uppercase;color:var(--blue);letter-spacing:.1em;margin-bottom:12px}
+.occ-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}.occ-cell{border-radius:4px;height:38px;color:#fff;font-family:var(--mono);font-size:.58rem;display:flex;align-items:center;justify-content:center;text-align:center}
+.scale-group{margin-bottom:14px;color:var(--muted)}.scale-group button{border:1px solid var(--border);background:#fff;border-radius:5px;padding:5px 12px}.scale-group button.active{background:var(--ink);color:var(--bg)}
+@media(max-width:850px){.grid-3,.grid-2,.kpi-strip{grid-template-columns:1fr}.page{padding:18px}}
 </style>
 </head>
-<body>
 
+<body>
 <header>
   <div class="logo">CoWork<span>Finance</span></div>
-  <div class="header-btns">
-    <button class="hbtn" onclick="exportCSV()">⬇ Export CSV</button>
-  </div>
+  <button class="hbtn" onclick="exportExcel()">Export Excel</button>
 </header>
 
-<!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('assumptions')">Assumptions</div>
-  <div class="tab" onclick="switchTab('fitout')">Fit-Out &amp; Capex</div>
-  <div class="tab" onclick="switchTab('occupancy')">Occupancy</div>
-  <div class="tab" onclick="switchTab('expenses')">Expenses</div>
-  <div class="tab" onclick="switchTab('pnl')">P&amp;L Summary</div>
-  <div class="tab" onclick="switchTab('cashflow')">Cashflow</div>
+  <button class="tab active" onclick="switchTab(event,'assumptions')">Assumptions</button>
+  <button class="tab" onclick="switchTab(event,'fitout')">Fit-Out</button>
+  <button class="tab" onclick="switchTab(event,'occupancy')">Occupancy</button>
+  <button class="tab" onclick="switchTab(event,'expenses')">Expenses</button>
+  <button class="tab" onclick="switchTab(event,'pnl')">P&L</button>
+  <button class="tab" onclick="switchTab(event,'cashflow')">Cashflow</button>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- PAGE 1: ASSUMPTIONS -->
-<!-- ══════════════════════════════════════════════ -->
 <div class="page active" id="page-assumptions">
-  <div class="section">
-    <div class="section-title">Property &amp; Space</div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="field">
-          <label>Total Built-Up Area (sq ft)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">ft²</span><input type="number" id="totalBUA" value="31466" oninput="calc()"/></div>
-        </div>
-        <div class="field">
-          <label>Carpet / SBA (sq ft)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">ft²</span><input type="number" id="carpetSBA" value="1.02" step="0.01" oninput="calc()"/>
-          </div>
-          <div class="sub">Efficiency ratio (SBA ÷ BUA)</div>
-        </div>
-        <div class="field">
-          <label>Gross Carpet Area (sq ft)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">ft²</span><input type="number" id="grossCarpet" value="3278" oninput="calc()"/></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="field">
-          <label>Average Seat / Carpet Area (sq ft)</label>
-          <div class="input-wrap"><input type="number" id="sqftPerSeat" value="47.95" step="0.1" oninput="calc()"/><span class="sfx">ft²</span></div>
-        </div>
-        <div class="field">
-          <label>No. of Seats</label>
-          <div class="input-wrap"><input type="number" id="noSeats" value="192" oninput="calc()"/><span class="sfx">seats</span></div>
-        </div>
-        <div class="field">
-          <label>Rental Model</label>
-          <select id="rentalModel" onchange="calc()">
-            <option value="fixed">Fixed Monthly</option>
-            <option value="revenue">Revenue Share</option>
-            <option value="hybrid">Hybrid</option>
-          </select>
-        </div>
-      </div>
-      <div class="card">
-        <div class="field">
-          <label>CAM Expenses (₹ per month per sq ft)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="cam" value="9" step="0.5" oninput="calc()"/></div>
-        </div>
-        <div class="field">
-          <label>Fixed Escalation (% p.a.)</label>
-          <div class="slider-row">
-            <input type="range" id="fixedEsc" min="0" max="20" step="0.5" value="5" oninput="syncS('fixedEsc','fixedEscV','%');calc()"/>
-            <span class="slider-val" id="fixedEscV">5.0%</span>
-          </div>
-        </div>
-        <div class="field">
-          <label>Fixed Lease-Free Period (months)</label>
-          <div class="input-wrap"><input type="number" id="leaseFree" value="0" min="0" max="12" oninput="calc()"/><span class="sfx">mo</span></div>
-        </div>
-      </div>
+  <div class="section-title">Property & Financial Assumptions</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="field"><label>Total Built-Up Area</label><input id="totalBUA" type="number" value="31466" oninput="calc()"></div>
+      <div class="field"><label>Carpet / SBA</label><input id="carpetSBA" type="number" value="1.02" step="0.01" oninput="calc()"></div>
+      <div class="field"><label>Gross Carpet Area</label><input id="grossCarpet" type="number" value="3278" oninput="calc()"></div>
+    </div>
+    <div class="card">
+      <div class="field"><label>Sqft Per Seat</label><input id="sqftPerSeat" type="number" value="47.95" oninput="calc()"></div>
+      <div class="field"><label>No. of Seats</label><input id="noSeats" type="number" value="192" oninput="calc()"></div>
+      <div class="field"><label>Rental Model</label><select id="rentalModel" onchange="calc()"><option>Fixed Monthly</option><option>Revenue Share</option><option>Hybrid</option></select></div>
+    </div>
+    <div class="card">
+      <div class="field"><label>CAM per Month per Sqft</label><input id="cam" type="number" value="9" oninput="calc()"></div>
+      <div class="field"><label>Rent per Sqft per Month</label><input id="rentPerSqft" type="number" value="85" oninput="calc()"></div>
+      <div class="field"><label>Lease Free Months</label><input id="leaseFree" type="number" value="0" oninput="calc()"></div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Security Deposit &amp; Brokerage</div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="field">
-          <label>Security Deposit (months rent)</label>
-          <div class="input-wrap"><input type="number" id="secDep" value="7" min="0" oninput="calc()"/><span class="sfx">mo</span></div>
-        </div>
-        <div class="field">
-          <label>Security Deposit Amount</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="secDepAmt" value="69" readonly style="opacity:.7"/></div>
-          <div class="sub">Auto-calculated</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="field">
-          <label>Total Brokerage (no. of months)</label>
-          <div class="input-wrap"><input type="number" id="brokMonths" value="4" min="0" oninput="calc()"/><span class="sfx">mo</span></div>
-        </div>
-        <div class="field">
-          <label>Brokerage (Per HQ)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="brokAmt" readonly style="opacity:.7"/></div>
-          <div class="sub">Auto-calculated</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="field">
-          <label>Rent per sq ft per month (₹)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="rentPerSqft" value="85" step="0.5" oninput="calc()"/></div>
-        </div>
-        <div class="field">
-          <label>Maintenance FO (₹ per month, amortised)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="maintFO" value="0.241" step="0.001" oninput="calc()"/></div>
-          <div class="sub">Per sq ft per month</div>
-        </div>
-      </div>
-    </div>
+  <div class="grid-3" style="margin-top:16px">
+    <div class="card"><div class="field"><label>Security Deposit Months</label><input id="secDep" type="number" value="7" oninput="calc()"></div><div class="field"><label>Security Deposit Amount</label><input id="secDepAmt" readonly></div></div>
+    <div class="card"><div class="field"><label>Brokerage Months</label><input id="brokMonths" type="number" value="4" oninput="calc()"></div><div class="field"><label>Brokerage Amount</label><input id="brokAmt" readonly></div></div>
+    <div class="card"><div class="field"><label>Fixed Escalation %</label><div class="slider-row"><input id="fixedEsc" type="range" min="0" max="20" step=".5" value="5" oninput="syncS('fixedEsc','fixedEscV');calc()"><span id="fixedEscV" class="slider-val">5%</span></div></div></div>
   </div>
 
-  <!-- KPI Strip updated on calc -->
-  <div class="kpi-strip" id="kpiStrip">
-    <div class="kpi"><div class="k-label">Total Seats</div><div class="k-val" id="kSeats">—</div></div>
-    <div class="kpi"><div class="k-label">Monthly Rent</div><div class="k-val orange" id="kRent">—</div><div class="k-sub">at full occupancy</div></div>
-    <div class="kpi"><div class="k-label">Annual Rent</div><div class="k-val orange" id="kAnnRent">—</div></div>
-    <div class="kpi"><div class="k-label">Security Deposit</div><div class="k-val blue" id="kSecDep">—</div></div>
-    <div class="kpi"><div class="k-label">Brokerage</div><div class="k-val" id="kBrok">—</div></div>
+  <div class="kpi-strip">
+    <div class="kpi"><div class="k-label">Seats</div><div id="kSeats" class="k-val"></div></div>
+    <div class="kpi"><div class="k-label">Monthly Rent</div><div id="kRent" class="k-val orange"></div></div>
+    <div class="kpi"><div class="k-label">Annual Rent</div><div id="kAnnRent" class="k-val orange"></div></div>
+    <div class="kpi"><div class="k-label">Security Deposit</div><div id="kSecDep" class="k-val blue"></div></div>
+    <div class="kpi"><div class="k-label">Brokerage</div><div id="kBrok" class="k-val"></div></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- PAGE 2: FIT-OUT -->
-<!-- ══════════════════════════════════════════════ -->
 <div class="page" id="page-fitout">
-  <div class="section">
-    <div class="section-title">Fit-Out Cost (Third Party)</div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="field"><label>FO Duration (months)</label>
-          <div class="input-wrap"><input type="number" id="foDuration" value="4" oninput="calc()"/><span class="sfx">mo</span></div></div>
-        <div class="field"><label>FO Cost (Perm. from SBA, ₹/sqft)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foCostPerm" value="0" oninput="calc()"/></div></div>
-        <div class="field"><label>FO Cost (Perm. from SBA, total)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foCostPermTotal" readonly style="opacity:.7"/></div>
-          <div class="sub">Auto</div></div>
-      </div>
-      <div class="card">
-        <div class="field"><label>FO Cost (Dep+Soft Interest) ₹/sqft</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foDepSoft" value="26950" oninput="calc()"/></div></div>
-        <div class="field"><label>FO Cost (FF&amp;E Implicit) ₹/sqft</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foFFE" value="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Total with monthly components</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foTotal" readonly style="opacity:.7"/></div>
-          <div class="sub">= 50,340 per seat (from model)</div></div>
-      </div>
-      <div class="card">
-        <div class="field"><label>FO Amortisation Period (months)</label>
-          <div class="input-wrap"><input type="number" id="foAmortPeriod" value="99" oninput="calc()"/><span class="sfx">mo</span></div></div>
-        <div class="field"><label>FO Amortisation Amt p.m. (₹ lakh)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foAmortPm" readonly style="opacity:.7"/></div>
-          <div class="sub">Per sq ft per month</div></div>
-        <div class="field"><label>Months for Exit (FO Amort)</label>
-          <div class="input-wrap"><input type="number" id="foExitMonths" value="5" oninput="calc()"/><span class="sfx">mo</span></div></div>
-      </div>
+  <div class="section-title">Fit-Out & Capex</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="field"><label>FO Duration Months</label><input id="foDuration" type="number" value="4" oninput="calc()"></div>
+      <div class="field"><label>FO Cost / Sqft</label><input id="foCostSqft" type="number" value="50340" oninput="calc()"></div>
+      <div class="field"><label>FO Amortisation Period</label><input id="foAmortPeriod" type="number" value="99" oninput="calc()"></div>
     </div>
-
-    <div class="card" style="margin-top:1rem">
-      <div class="section-title">Fit-Out Cost Summary</div>
-      <div class="grid-4">
-        <div class="field"><label>FO Cost / Seat (₹)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foCostSeat" readonly style="opacity:.7"/></div></div>
-        <div class="field"><label>FO Cost / sqft (₹)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foCostSqft" value="50340" oninput="calc()"/></div></div>
-        <div class="field"><label>Total FO Investment (₹)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foTotalInv" readonly style="opacity:.7"/></div></div>
-        <div class="field"><label>Monthly Depreciation (₹)</label>
-          <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="foMonthlyDep" readonly style="opacity:.7"/></div></div>
-      </div>
+    <div class="card">
+      <div class="field"><label>FO Dep + Soft Interest</label><input id="foDepSoft" type="number" value="26950" oninput="calc()"></div>
+      <div class="field"><label>FO FF&E</label><input id="foFFE" type="number" value="0" oninput="calc()"></div>
+      <div class="field"><label>FO Exit Months</label><input id="foExitMonths" type="number" value="5" oninput="calc()"></div>
+    </div>
+    <div class="card">
+      <div class="field"><label>Total FO Investment</label><input id="foTotalInv" readonly></div>
+      <div class="field"><label>FO Cost / Seat</label><input id="foCostSeat" readonly></div>
+      <div class="field"><label>Monthly Depreciation</label><input id="foMonthlyDep" readonly></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- PAGE 3: OCCUPANCY -->
-<!-- ══════════════════════════════════════════════ -->
 <div class="page" id="page-occupancy">
   <div class="grid-2">
     <div class="card">
       <div class="section-title">Occupancy Ramp-Up</div>
-      <div class="field"><label>Target Steady-State Occupancy (%)</label>
-        <div class="slider-row">
-          <input type="range" id="targetOcc" min="50" max="100" step="1" value="90" oninput="syncS('targetOcc','targetOccV','%');calc()"/>
-          <span class="slider-val" id="targetOccV">90%</span>
-        </div></div>
-      <div class="field"><label>Months to reach steady state</label>
-        <div class="input-wrap"><input type="number" id="rampMonths" value="12" min="1" max="40" oninput="calc()"/><span class="sfx">mo</span></div></div>
-      <div class="field"><label>Opening Occupancy (%)</label>
-        <div class="slider-row">
-          <input type="range" id="openOcc" min="0" max="80" step="5" value="25" oninput="syncS('openOcc','openOccV','%');calc()"/>
-          <span class="slider-val" id="openOccV">25%</span>
-        </div></div>
-      <div class="field"><label>Revenue / Seat / Month (₹)</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="revenuePerSeat" value="9500" oninput="calc()"/></div></div>
-      <div class="field"><label>Revenue Escalation (% p.a.)</label>
-        <div class="slider-row">
-          <input type="range" id="revEsc" min="0" max="20" step="0.5" value="5" oninput="syncS('revEsc','revEscV','%');calc()"/>
-          <span class="slider-val" id="revEscV">5.0%</span>
-        </div></div>
-      <div class="field"><label>Brokerage on Customer (% of annual revenue)</label>
-        <div class="input-wrap"><input type="number" id="custBrok" value="4" step="0.5" oninput="calc()"/><span class="sfx">%</span></div></div>
+      <div class="field"><label>Target Occupancy %</label><div class="slider-row"><input id="targetOcc" type="range" min="50" max="100" value="90" oninput="syncS('targetOcc','targetOccV');calc()"><span id="targetOccV" class="slider-val">90%</span></div></div>
+      <div class="field"><label>Ramp Months</label><input id="rampMonths" type="number" value="12" oninput="calc()"></div>
+      <div class="field"><label>Opening Occupancy %</label><div class="slider-row"><input id="openOcc" type="range" min="0" max="80" step="5" value="25" oninput="syncS('openOcc','openOccV');calc()"><span id="openOccV" class="slider-val">25%</span></div></div>
+      <div class="field"><label>Revenue / Seat / Month</label><input id="revenuePerSeat" type="number" value="9500" oninput="calc()"></div>
+      <div class="field"><label>Revenue Escalation %</label><div class="slider-row"><input id="revEsc" type="range" min="0" max="20" step=".5" value="5" oninput="syncS('revEsc','revEscV');calc()"><span id="revEscV" class="slider-val">5%</span></div></div>
+      <div class="field"><label>Customer Brokerage %</label><input id="custBrok" type="number" value="4" oninput="calc()"></div>
     </div>
-
-    <div class="card">
-      <div class="section-title">Occupancy Heatmap (Month 1–40)</div>
-      <div id="occHeatmap"></div>
-    </div>
+    <div class="card"><div class="section-title">Occupancy Heatmap</div><div id="occHeatmap"></div></div>
   </div>
-
-  <div class="chart-box" style="margin-top:1.25rem">
-    <div class="chart-label">Monthly Revenue vs. Rent (₹ Lakh)</div>
-    <canvas id="occChart"></canvas>
-  </div>
+  <div class="chart-box"><div class="chart-label">Revenue vs Rent</div><canvas id="occChart"></canvas></div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- PAGE 4: EXPENSES -->
-<!-- ══════════════════════════════════════════════ -->
 <div class="page" id="page-expenses">
-  <div class="section-title">HQ & Operating Expenses (₹ per seat per month)</div>
+  <div class="section-title">Operating Expenses</div>
   <div class="grid-3">
-    <div class="card">
-      <div class="field"><label>IT &amp; Internet</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expIT" value="5.17" step="0.01" oninput="calc()"/></div></div>
-      <div class="field"><label>HQ Staff Salary</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expHQ" value="5.17" step="0.01" oninput="calc()"/></div></div>
-      <div class="field"><label>Tea/Coffee</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expTC" value="0.17" step="0.01" oninput="calc()"/></div></div>
-    </div>
-    <div class="card">
-      <div class="field"><label>Property Management Team (CAM)</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expPM" value="1.22" step="0.01" oninput="calc()"/></div></div>
-      <div class="field"><label>Repair &amp; Maintenance</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expRM" value="1.63" step="0.01" oninput="calc()"/></div></div>
-      <div class="field"><label>Central Operating Staff</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expCO" value="1.03" step="0.01" oninput="calc()"/></div></div>
-    </div>
-    <div class="card">
-      <div class="field"><label>Technology &amp; Dashboard Expense</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expTech" value="1.27" step="0.01" oninput="calc()"/></div></div>
-      <div class="field"><label>Housekeeping (per sq ft/mo)</label>
-        <div class="input-wrap has-pfx"><span class="pfx">₹</span><input type="number" id="expHK" value="3.57" step="0.01" oninput="calc()"/></div></div>
-      <div class="field"><label>Expense Growth (% p.a.)</label>
-        <div class="slider-row">
-          <input type="range" id="expGrowth" min="0" max="20" step="0.5" value="5" oninput="syncS('expGrowth','expGrowthV','%');calc()"/>
-          <span class="slider-val" id="expGrowthV">5.0%</span>
-        </div></div>
-    </div>
+    <div class="card"><div class="field"><label>IT & Internet</label><input id="expIT" type="number" value="5.17" oninput="calc()"></div><div class="field"><label>HQ Staff Salary</label><input id="expHQ" type="number" value="5.17" oninput="calc()"></div><div class="field"><label>Tea/Coffee</label><input id="expTC" type="number" value="0.17" oninput="calc()"></div></div>
+    <div class="card"><div class="field"><label>Property Management</label><input id="expPM" type="number" value="1.22" oninput="calc()"></div><div class="field"><label>Repair & Maintenance</label><input id="expRM" type="number" value="1.63" oninput="calc()"></div><div class="field"><label>Central Operating Staff</label><input id="expCO" type="number" value="1.03" oninput="calc()"></div></div>
+    <div class="card"><div class="field"><label>Technology Expense</label><input id="expTech" type="number" value="1.27" oninput="calc()"></div><div class="field"><label>Housekeeping</label><input id="expHK" type="number" value="3.57" oninput="calc()"></div><div class="field"><label>Expense Growth %</label><input id="expGrowth" type="number" value="5" oninput="calc()"></div></div>
   </div>
-
-  <div class="chart-box">
-    <div class="chart-label">Expense Breakdown — Year 1 (₹ Lakh)</div>
-    <canvas id="expChart"></canvas>
-  </div>
-
-  <div class="tbl-wrap" style="margin-top:1.5rem">
-    <table>
-      <thead><tr>
-        <th>Expense Head</th><th>Per Seat/Mo (₹)</th><th>Annual (₹)</th><th>% of Total Opex</th>
-      </tr></thead>
-      <tbody id="expTable"></tbody>
-    </table>
-  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Expense Head</th><th>Per Seat/Mo</th><th>Annual</th><th>% Total</th></tr></thead><tbody id="expTable"></tbody></table></div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- PAGE 5: P&L -->
-<!-- ══════════════════════════════════════════════ -->
 <div class="page" id="page-pnl">
-  <div class="scale-group">
-    Scale:
-    <button onclick="setScale('abs')" id="sc-abs" class="active">₹</button>
-    <button onclick="setScale('l')" id="sc-l">Lakh</button>
-    <button onclick="setScale('cr')" id="sc-cr">Crore</button>
+  <div class="scale-group">Scale: <button id="sc-abs" class="active" onclick="setScale('abs')">₹</button> <button id="sc-l" onclick="setScale('l')">Lakh</button> <button id="sc-cr" onclick="setScale('cr')">Crore</button></div>
+  <div class="kpi-strip">
+    <div class="kpi"><div class="k-label">Year 1 EBITDA</div><div id="ebitda1" class="k-val"></div></div>
+    <div class="kpi"><div class="k-label">IRR</div><div id="pnlIRR" class="k-val green"></div></div>
+    <div class="kpi"><div class="k-label">Revenue Y1</div><div id="revY1" class="k-val green"></div></div>
+    <div class="kpi"><div class="k-label">Opex Y1</div><div id="opexY1" class="k-val orange"></div></div>
+    <div class="kpi"><div class="k-label">NCF Y1</div><div id="ncfY1" class="k-val blue"></div></div>
   </div>
-
-  <div class="result-2">
-    <div class="result-box">
-      <div class="r-label">Year 1 EBITDA</div>
-      <div class="r-val" id="ebitda1">—</div>
-      <div class="r-sub">Earnings before interest, tax, dep &amp; amort</div>
-    </div>
-    <div class="result-box green">
-      <div class="r-label">IRR (Equity)</div>
-      <div class="r-val" id="pnlIRR">—</div>
-      <div class="r-sub">Based on 5-year horizon</div>
-    </div>
-  </div>
-
-  <div class="tbl-wrap">
-    <table id="pnlTable">
-      <thead id="pnlHead"></thead>
-      <tbody id="pnlBody"></tbody>
-    </table>
-  </div>
-
-  <div class="chart-box" style="margin-top:1.5rem">
-    <div class="chart-label">Annual P&amp;L — Revenue vs. Expenses vs. EBITDA</div>
-    <canvas id="pnlChart"></canvas>
-  </div>
+  <div class="tbl-wrap"><table id="pnlTable"><thead id="pnlHead"></thead><tbody id="pnlBody"></tbody></table></div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!-- PAGE 6: CASHFLOW -->
-<!-- ══════════════════════════════════════════════ -->
 <div class="page" id="page-cashflow">
-  <div class="scale-group">
-    Scale:
-    <button onclick="setScale('abs')" id="sc2-abs" class="active">₹</button>
-    <button onclick="setScale('l')" id="sc2-l">Lakh</button>
-    <button onclick="setScale('cr')" id="sc2-cr">Crore</button>
-  </div>
-
-  <div class="kpi-strip" id="cfKPI" style="margin-bottom:1.5rem"></div>
-
-  <div class="tbl-wrap">
-    <table>
-      <thead id="cfHead"></thead>
-      <tbody id="cfBody"></tbody>
-    </table>
-  </div>
-
-  <div class="chart-box" style="margin-top:1.5rem">
-    <div class="chart-label">Monthly Cashflow (₹ Lakh)</div>
-    <canvas id="cfChart"></canvas>
-  </div>
+  <div class="kpi-strip" id="cfKPI"></div>
+  <div class="tbl-wrap"><table id="cfTable"><thead id="cfHead"></thead><tbody id="cfBody"></tbody></table></div>
 </div>
 
-<!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
 <script>
-// ── STATE ─────────────────────────────────────────────────
-let scale = 1, scaleLbl = '₹';
-const charts = {};
+let scale=1,scaleLbl='₹',charts={},latest={};
 
-function setScale(s) {
-  ['abs','l','cr'].forEach(k => {
-    const a = document.getElementById('sc-'+k);
-    const b = document.getElementById('sc2-'+k);
-    if(a) a.classList.remove('active');
-    if(b) b.classList.remove('active');
-  });
-  if(s==='abs')  { scale=1;       scaleLbl='₹';      ['sc-abs','sc2-abs'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('active')}); }
-  if(s==='l')    { scale=100000;  scaleLbl='₹L';     ['sc-l','sc2-l'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('active')}); }
-  if(s==='cr')   { scale=10000000;scaleLbl='₹Cr';    ['sc-cr','sc2-cr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('active')}); }
-  calc();
-}
+function val(id){return +document.getElementById(id).value || 0}
+function fmtL(v){return '₹'+(v/100000).toFixed(2)+'L'}
+function fmt(v){return scale===1?'₹'+Math.round(v).toLocaleString('en-IN'):scaleLbl+' '+(v/scale).toFixed(2)}
+function syncS(id,out){document.getElementById(out).textContent=val(id).toFixed(id==='targetOcc'||id==='openOcc'?0:1)+'%'}
+function setScale(s){scale=s==='l'?100000:s==='cr'?10000000:1;scaleLbl=s==='l'?'₹L':s==='cr'?'₹Cr':'₹';document.querySelectorAll('.scale-group button').forEach(b=>b.classList.remove('active'));document.getElementById('sc-'+s).classList.add('active');calc()}
+function switchTab(e,name){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById('page-'+name).classList.add('active')}
+function mkChart(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg)}
+function irr(cfs){let r=.1;for(let i=0;i<100;i++){let n=0,d=0;cfs.forEach((cf,t)=>{n+=cf/Math.pow(1+r,t);d-=t*cf/Math.pow(1+r,t+1)});let nr=r-n/d;if(Math.abs(nr-r)<1e-7)return nr;r=nr}return r}
 
-function fmt(v) {
-  if (scale===1) return '₹'+Math.round(v).toLocaleString('en-IN');
-  const d = v/scale;
-  return scaleLbl+' '+d.toFixed(2);
-}
-function fmtL(v) { return '₹'+(v/100000).toFixed(2)+'L'; }
+function calc(){
+  const totalBUA=val('totalBUA'),grossCarpet=val('grossCarpet'),noSeats=val('noSeats'),rentPerSqft=val('rentPerSqft');
+  const monthlyBaseRent=rentPerSqft*totalBUA,annualRent=monthlyBaseRent*12,secDepAmt=monthlyBaseRent*val('secDep'),brokAmt=monthlyBaseRent*val('brokMonths');
+  document.getElementById('secDepAmt').value=Math.round(secDepAmt);
+  document.getElementById('brokAmt').value=Math.round(brokAmt);
+  kSeats.textContent=noSeats.toLocaleString('en-IN');kRent.textContent=fmtL(monthlyBaseRent);kAnnRent.textContent=fmtL(annualRent);kSecDep.textContent=fmtL(secDepAmt);kBrok.textContent=fmtL(brokAmt);
 
-function syncS(id, valId, unit) {
-  const v = parseFloat(document.getElementById(id).value);
-  document.getElementById(valId).textContent = unit==='%' ? v.toFixed(1)+'%' : v+' '+unit;
-}
+  const foTotalInv=val('foCostSqft')*grossCarpet,foMonthlyDep=foTotalInv/(val('foAmortPeriod')||1),foCostSeat=noSeats?foTotalInv/noSeats:0;
+  foTotalInvEl=document.getElementById('foTotalInv');foTotalInvEl.value=Math.round(foTotalInv);
+  foCostSeat.value=Math.round(foCostSeat);foMonthlyDep.value=Math.round(foMonthlyDep);
 
-// ── TABS ──────────────────────────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('page-'+name).classList.add('active');
-}
+  const MONTHS=40,YEARS=5,targetOcc=val('targetOcc'),openOcc=val('openOcc'),rampMonths=val('rampMonths')||1;
+  const revPerSeat=val('revenuePerSeat'),revEsc=val('revEsc'),fixedEsc=val('fixedEsc'),leaseFree=val('leaseFree'),custBrokPct=val('custBrok');
+  const expGrowth=val('expGrowth'),cam=val('cam');
+  const expItems=[
+    ['IT & Internet',val('expIT')],['HQ Staff',val('expHQ')],['Tea/Coffee',val('expTC')],['Property Management',val('expPM')],
+    ['Repair & Maintenance',val('expRM')],['Central Ops',val('expCO')],['Technology',val('expTech')],['Housekeeping',val('expHK')]
+  ];
+  const totalExpPerSeat=expItems.reduce((a,b)=>a+b[1],0);
 
-// ── IRR ───────────────────────────────────────────────────
-function irr(cfs, guess=0.1) {
-  let r=guess;
-  for(let i=0;i<1000;i++){
-    let npv=0,dnpv=0;
-    cfs.forEach((cf,t)=>{ npv+=cf/Math.pow(1+r,t); dnpv-=t*cf/Math.pow(1+r,t+1); });
-    const nr = r - npv/dnpv;
-    if(Math.abs(nr-r)<1e-9) return nr;
-    r=nr;
-  }
-  return r;
-}
+  let occArr=[];
+  for(let m=1;m<=MONTHS;m++){let f=Math.min(m/rampMonths,1);occArr.push(openOcc+(targetOcc-openOcc)*f)}
+  occHeatmap.innerHTML='<div class="occ-grid">'+occArr.map((o,i)=>`<div class="occ-cell" style="background:rgb(${232-(o*1.7)},${93+(o*.65)},${38+(o*.4)})">M${i+1}<br>${o.toFixed(0)}%</div>`).join('')+'</div>';
 
-// ── CHART HELPER ─────────────────────────────────────────
-function mkChart(id, config) {
-  if(charts[id]) charts[id].destroy();
-  charts[id] = new Chart(document.getElementById(id).getContext('2d'), config);
-}
-
-// ── MAIN CALC ─────────────────────────────────────────────
-function calc() {
-  const totalBUA    = +document.getElementById('totalBUA').value    || 0;
-  const carpetEff   = +document.getElementById('carpetSBA').value   || 1;
-  const grossCarpet = +document.getElementById('grossCarpet').value || 0;
-  const sqftPerSeat = +document.getElementById('sqftPerSeat').value || 1;
-  const noSeats     = +document.getElementById('noSeats').value     || 0;
-  const cam         = +document.getElementById('cam').value         || 0;
-  const fixedEsc    = +document.getElementById('fixedEsc').value    || 0;
-  const leaseFree   = +document.getElementById('leaseFree').value   || 0;
-  const secDep      = +document.getElementById('secDep').value      || 0;
-  const brokMonths  = +document.getElementById('brokMonths').value  || 0;
-  const rentPerSqft = +document.getElementById('rentPerSqft').value || 0;
-  const maintFO     = +document.getElementById('maintFO').value     || 0;
-
-  // Derived property
-  const monthlyBaseRent = rentPerSqft * totalBUA;
-  const annualRent      = monthlyBaseRent * 12;
-  const secDepAmt       = monthlyBaseRent * secDep;
-  const brokAmt         = monthlyBaseRent * brokMonths;
-
-  document.getElementById('secDepAmt').value = Math.round(secDepAmt/100000*100)/100;
-  document.getElementById('brokAmt').value   = Math.round(brokAmt/100000*100)/100;
-
-  // KPI strip
-  document.getElementById('kSeats').textContent   = noSeats.toLocaleString('en-IN');
-  document.getElementById('kRent').textContent     = fmtL(monthlyBaseRent);
-  document.getElementById('kAnnRent').textContent  = fmtL(annualRent);
-  document.getElementById('kSecDep').textContent   = fmtL(secDepAmt);
-  document.getElementById('kBrok').textContent     = fmtL(brokAmt);
-
-  // ── FIT-OUT ────────────────────────────────────────────
-  const foCostSqft   = +document.getElementById('foCostSqft').value     || 0;
-  const foAmortPeriod= +document.getElementById('foAmortPeriod').value   || 1;
-  const foDepSoft    = +document.getElementById('foDepSoft').value       || 0;
-
-  const foTotalInv   = foCostSqft * grossCarpet;
-  const foMonthlyDep = foTotalInv / foAmortPeriod;
-  const foCostSeat   = noSeats>0 ? foTotalInv/noSeats : 0;
-  const foAmortPm    = grossCarpet>0 ? foTotalInv/foAmortPeriod/grossCarpet : 0;
-
-  document.getElementById('foTotalInv').value   = Math.round(foTotalInv);
-  document.getElementById('foMonthlyDep').value = Math.round(foMonthlyDep);
-  document.getElementById('foCostSeat').value   = Math.round(foCostSeat);
-  document.getElementById('foAmortPm').value    = foAmortPm.toFixed(4);
-  document.getElementById('foCostPermTotal').value = 0;
-  document.getElementById('foTotal').value      = Math.round(foTotalInv);
-
-  // ── OCCUPANCY ──────────────────────────────────────────
-  const targetOcc      = +document.getElementById('targetOcc').value     || 90;
-  const rampMonths     = +document.getElementById('rampMonths').value    || 12;
-  const openOcc        = +document.getElementById('openOcc').value       || 25;
-  const revPerSeat     = +document.getElementById('revenuePerSeat').value|| 0;
-  const revEsc         = +document.getElementById('revEsc').value        || 0;
-  const custBrokPct    = +document.getElementById('custBrok').value      || 0;
-
-  const MONTHS = 40;
-  const occArr = [];
-  for(let m=1;m<=MONTHS;m++){
-    const frac = Math.min(m/rampMonths, 1);
-    const occ  = openOcc + (targetOcc - openOcc) * frac;
-    occArr.push(Math.min(occ, targetOcc));
-  }
-
-  // Heatmap
-  let hmHtml = '<div class="occ-grid">';
-  occArr.forEach((o,i)=>{
-    const pct=o/100;
-    const r=Math.round(232+(45-232)*pct);
-    const g=Math.round(93+(158-93)*pct);
-    const b=Math.round(38+(79-38)*pct);
-    const bg=`rgb(${r},${g},${b})`;
-    hmHtml+=`<div class="occ-cell" style="background:${bg};color:#fff;font-size:.6rem" title="M${i+1}: ${o.toFixed(0)}%">M${i+1}<br>${o.toFixed(0)}%</div>`;
-  });
-  hmHtml += '</div>';
-  document.getElementById('occHeatmap').innerHTML = hmHtml;
-
-  // Monthly revenue & rent
-  const monthlyRevArr=[], monthlyRentArr=[], monthlyBrokArr=[];
+  let monthlyRev=[],monthlyRent=[];
   for(let m=0;m<MONTHS;m++){
-    const yr=Math.floor(m/12);
-    const revMult = Math.pow(1+revEsc/100, yr);
-    const rentMult= Math.pow(1+fixedEsc/100, yr);
-    const seats   = Math.round(noSeats * occArr[m]/100);
-    const rev     = seats * revPerSeat * revMult;
-    const rent    = m < leaseFree ? 0 : monthlyBaseRent * rentMult;
-    const brok    = rev * custBrokPct/100;
-    monthlyRevArr.push(rev);
-    monthlyRentArr.push(rent);
-    monthlyBrokArr.push(brok);
+    let yr=Math.floor(m/12),seats=Math.round(noSeats*occArr[m]/100);
+    monthlyRev.push(seats*revPerSeat*Math.pow(1+revEsc/100,yr));
+    monthlyRent.push(m<leaseFree?0:monthlyBaseRent*Math.pow(1+fixedEsc/100,yr));
   }
+  mkChart('occChart',{type:'bar',data:{labels:monthlyRev.map((_,i)=>'M'+(i+1)),datasets:[
+    {label:'Revenue',data:monthlyRev.map(v=>v/100000),backgroundColor:'rgba(45,106,79,.7)'},
+    {label:'Rent',data:monthlyRent.map(v=>v/100000),backgroundColor:'rgba(232,93,38,.55)'}
+  ]},options:{responsive:true}});
 
-  mkChart('occChart', {
-    type:'bar',
-    data:{
-      labels: Array.from({length:MONTHS},(_,i)=>'M'+(i+1)),
-      datasets:[
-        { label:'Revenue', data:monthlyRevArr.map(v=>v/100000), backgroundColor:'rgba(45,106,79,.7)', borderRadius:3, order:2 },
-        { label:'Rent', data:monthlyRentArr.map(v=>v/100000), backgroundColor:'rgba(232,93,38,.55)', borderRadius:3, order:1 }
-      ]
-    },
-    options:{ responsive:true, plugins:{legend:{labels:{color:'#7a7570',font:{family:'IBM Plex Sans',size:11}}}},
-      scales:{ x:{ticks:{color:'#7a7570',font:{family:'IBM Plex Mono',size:9}},grid:{color:'#d6d0c7'}},
-               y:{ticks:{color:'#7a7570',font:{family:'IBM Plex Mono',size:10},callback:v=>v.toFixed(0)+'L'},grid:{color:'#d6d0c7'}} } }
-  });
+  expTable.innerHTML=expItems.map(e=>{
+    let annual=e[1]*noSeats*12,pct=totalExpPerSeat?e[1]/totalExpPerSeat*100:0;
+    return `<tr><td>${e[0]}</td><td>${e[1].toFixed(2)}</td><td>${Math.round(annual).toLocaleString('en-IN')}</td><td>${pct.toFixed(1)}%</td></tr>`;
+  }).join('')+`<tr class="subtotal"><td>Total</td><td>${totalExpPerSeat.toFixed(2)}</td><td>${Math.round(totalExpPerSeat*noSeats*12).toLocaleString('en-IN')}</td><td>100%</td></tr>`;
 
-  // ── EXPENSES ───────────────────────────────────────────
-  const expIT   = +document.getElementById('expIT').value   || 0;
-  const expHQ   = +document.getElementById('expHQ').value   || 0;
-  const expTC   = +document.getElementById('expTC').value   || 0;
-  const expPM   = +document.getElementById('expPM').value   || 0;
-  const expRM   = +document.getElementById('expRM').value   || 0;
-  const expCO   = +document.getElementById('expCO').value   || 0;
-  const expTech = +document.getElementById('expTech').value || 0;
-  const expHK   = +document.getElementById('expHK').value   || 0;
-  const expGrowth=+document.getElementById('expGrowth').value||0;
-
-  const totalExpPerSeat = expIT+expHQ+expTC+expPM+expRM+expCO+expTech+expHK;
-  const expItems = [
-    {label:'IT & Internet',    val:expIT},
-    {label:'HQ Staff',         val:expHQ},
-    {label:'Tea/Coffee',       val:expTC},
-    {label:'Prop. Mgmt (CAM)', val:expPM},
-    {label:'Repair & Maint.',  val:expRM},
-    {label:'Central Ops',      val:expCO},
-    {label:'Tech & Dashboard', val:expTech},
-    {label:'Housekeeping',     val:expHK},
-  ];
-
-  let expHtml='';
-  expItems.forEach(e=>{
-    const annual = e.val * noSeats * 12;
-    const pct = totalExpPerSeat>0 ? (e.val/totalExpPerSeat*100).toFixed(1)+'%' : '0%';
-    expHtml += `<tr><td>${e.label}</td><td>${e.val.toFixed(2)}</td><td class="${annual>=0?'':'neg'}">${Math.round(annual).toLocaleString('en-IN')}</td><td>${pct}</td></tr>`;
-  });
-  expHtml += `<tr class="subtotal"><td>Total Opex / Seat / Month</td><td>${totalExpPerSeat.toFixed(2)}</td><td>${Math.round(totalExpPerSeat*noSeats*12).toLocaleString('en-IN')}</td><td>100%</td></tr>`;
-  document.getElementById('expTable').innerHTML = expHtml;
-
-  mkChart('expChart', {
-    type:'doughnut',
-    data:{
-      labels: expItems.map(e=>e.label),
-      datasets:[{ data: expItems.map(e=>e.val*noSeats*12/100000),
-        backgroundColor:['#e85d26','#2d6a4f','#1a4fa0','#d4a017','#6b21a8','#0891b2','#be185d','#15803d'],
-        borderWidth:2, borderColor:'#ffffff' }]
-    },
-    options:{ responsive:true, plugins:{ legend:{ position:'right', labels:{color:'#1a1814',font:{family:'IBM Plex Sans',size:11}}} } }
-  });
-
-  // ── ANNUAL P&L ─────────────────────────────────────────
-  const YEARS = 5;
-  const annRev=[], annRent=[], annOpex=[], annBrok=[], annDep=[], annEBITDA=[], annNCF=[];
-
-  for(let yr=0; yr<YEARS; yr++){
-    const revMult  = Math.pow(1+revEsc/100, yr);
-    const rentMult = Math.pow(1+fixedEsc/100, yr);
-    const expMult  = Math.pow(1+expGrowth/100, yr);
-
-    let rev=0, rent=0, opex=0, brok=0;
-    for(let m=0; m<12; m++){
-      const globalM = yr*12+m;
-      const occ = globalM < MONTHS ? occArr[globalM] : targetOcc;
-      const seats = Math.round(noSeats * occ/100);
-      rev  += seats * revPerSeat * revMult;
-      rent += (globalM < leaseFree ? 0 : monthlyBaseRent * rentMult);
-      opex += totalExpPerSeat * noSeats * expMult;
-      brok += seats * revPerSeat * revMult * custBrokPct/100;
+  let annRev=[],annRent=[],annOpex=[],annBrok=[],annDep=[],annEBITDA=[],annNCF=[];
+  for(let yr=0;yr<YEARS;yr++){
+    let rev=0,rent=0,opex=0,brok=0;
+    for(let m=0;m<12;m++){
+      let gm=yr*12+m,occ=gm<MONTHS?occArr[gm]:targetOcc,seats=Math.round(noSeats*occ/100);
+      rev+=seats*revPerSeat*Math.pow(1+revEsc/100,yr);
+      rent+=gm<leaseFree?0:monthlyBaseRent*Math.pow(1+fixedEsc/100,yr);
+      opex+=totalExpPerSeat*noSeats*Math.pow(1+expGrowth/100,yr);
+      brok+=seats*revPerSeat*Math.pow(1+revEsc/100,yr)*custBrokPct/100;
     }
-
-    const camAnn = cam * grossCarpet * 12;
-    const dep    = foMonthlyDep * 12;
-    const ebitda = rev - rent - opex - brok - camAnn;
-    const ncf    = ebitda - dep;
-
-    annRev.push(rev); annRent.push(rent); annOpex.push(opex+camAnn);
-    annBrok.push(brok); annDep.push(dep); annEBITDA.push(ebitda); annNCF.push(ncf);
+    let camAnn=cam*grossCarpet*12,dep=foMonthlyDep*12,ebitda=rev-rent-opex-brok-camAnn,ncf=ebitda-dep;
+    annRev.push(rev);annRent.push(rent);annOpex.push(opex+camAnn);annBrok.push(brok);annDep.push(dep);annEBITDA.push(ebitda);annNCF.push(ncf);
   }
 
-  document.getElementById('ebitda1').textContent = fmtL(annEBITDA[0]);
-  document.getElementById('ebitda1').style.color = annEBITDA[0]>=0 ? '#4ade80' : '#f87171';
+  let irrVal=irr([-(secDepAmt+brokAmt+foTotalInv),...annNCF]);
+  ebitda1.textContent=fmtL(annEBITDA[0]);pnlIRR.textContent=isFinite(irrVal)?(irrVal*100).toFixed(1)+'%':'N/A';
+  revY1.textContent=fmtL(annRev[0]);opexY1.textContent=fmtL(annOpex[0]);ncfY1.textContent=fmtL(annNCF[0]);
 
-  // IRR from investment
-  const irrCFs = [-(secDepAmt + brokAmt + foTotalInv)];
-  annNCF.forEach(v => irrCFs.push(v));
-  const irrVal = irr(irrCFs);
-  document.getElementById('pnlIRR').textContent = isFinite(irrVal) ? (irrVal*100).toFixed(1)+'%' : 'N/A';
+  const years=['Year 1','Year 2','Year 3','Year 4','Year 5'];
+  pnlHead.innerHTML='<tr><th>Metric</th>'+years.map(y=>`<th>${y}</th>`).join('')+'</tr>';
+  const rows=[['Gross Revenue',annRev],['Brokerage',annBrok,true],['Rent',annRent,true],['Operating Opex',annOpex,true],['EBITDA',annEBITDA],['Depreciation',annDep,true],['Net Cashflow',annNCF]];
+  pnlBody.innerHTML=rows.map(r=>`<tr class="${r[0]==='EBITDA'||r[0]==='Net Cashflow'?'subtotal':''}"><td>${r[0]}</td>${r[1].map(v=>`<td>${r[2]?'('+fmt(v)+')':fmt(v)}</td>`).join('')}</tr>`).join('');
 
-  // P&L table
-  const ylabels = Array.from({length:YEARS},(_,i)=>'Year '+(i+1));
-  document.getElementById('pnlHead').innerHTML =
-    '<tr><th>Metric</th>'+ ylabels.map(y=>`<th>${y}</th>`).join('') +'</tr>';
-
-  const rows2 = [
-    { label:'Gross Revenue',   data:annRev,    cls:'pos' },
-    { label:'Brokerage (Out)', data:annBrok,   cls:'neg', neg:true },
-    { label:'Net Revenue',     data:annRev.map((r,i)=>r-annBrok[i]), cls:'' },
-    { label:'Rent (Landlord)', data:annRent,   cls:'neg', neg:true },
-    { label:'Operating Opex',  data:annOpex,   cls:'neg', neg:true },
-    { label:'EBITDA',          data:annEBITDA, cls:'',  bold:true },
-    { label:'Depreciation',    data:annDep,    cls:'neg', neg:true },
-    { label:'Net Cashflow',    data:annNCF,    cls:'',  bold:true },
-  ];
-
-  document.getElementById('pnlBody').innerHTML = rows2.map(r=>{
-    const cls = r.bold ? 'subtotal' : '';
-    const cells = r.data.map(v=>{
-      const c = v<0?'neg':(r.cls||'');
-      return `<td class="${c}">${r.neg?'('+fmt(Math.abs(v))+')':fmt(v)}</td>`;
-    }).join('');
-    return `<tr class="${cls}"><td>${r.label}</td>${cells}</tr>`;
+  cfKPI.innerHTML=`<div class="kpi"><div class="k-label">Initial Investment</div><div class="k-val orange">${fmtL(secDepAmt+brokAmt+foTotalInv)}</div></div><div class="kpi"><div class="k-label">5-Year NCF</div><div class="k-val green">${fmtL(annNCF.reduce((a,b)=>a+b,0))}</div></div><div class="kpi"><div class="k-label">IRR</div><div class="k-val blue">${isFinite(irrVal)?(irrVal*100).toFixed(1)+'%':'N/A'}</div></div><div class="kpi"><div class="k-label">Y1 Margin</div><div class="k-val">${annRev[0]?(annEBITDA[0]/annRev[0]*100).toFixed(1)+'%':'-'}</div></div><div class="kpi"><div class="k-label">Seats</div><div class="k-val">${noSeats}</div></div>`;
+  cfHead.innerHTML='<tr><th>Metric</th>'+Array.from({length:12},(_,i)=>`<th>M${i+1}</th>`).join('')+'</tr>';
+  cfBody.innerHTML=['Revenue','Rent','Opex','Brokerage','EBITDA'].map((name,ri)=>{
+    let cells='';
+    for(let m=0;m<12;m++){
+      let seats=Math.round(noSeats*occArr[m]/100),rev=seats*revPerSeat,rent=m<leaseFree?0:monthlyBaseRent,opex=totalExpPerSeat*noSeats+cam*grossCarpet,brok=rev*custBrokPct/100,ebitda=rev-rent-opex-brok;
+      let arr=[rev,rent,opex,brok,ebitda],v=arr[ri];
+      cells+=`<td>${ri>0&&ri<4?'('+fmt(v)+')':fmt(v)}</td>`;
+    }
+    return `<tr class="${ri===4?'subtotal':''}"><td>${name}</td>${cells}</tr>`;
   }).join('');
 
-  mkChart('pnlChart',{
-    type:'bar',
-    data:{
-      labels:ylabels,
-      datasets:[
-        {label:'Revenue',data:annRev.map(v=>v/100000),backgroundColor:'rgba(45,106,79,.7)',borderRadius:4,order:1},
-        {label:'Expenses',data:annRent.map((r,i)=>(r+annOpex[i]+annBrok[i])/100000),backgroundColor:'rgba(232,93,38,.6)',borderRadius:4,order:2},
-        {label:'EBITDA',data:annEBITDA.map(v=>v/100000),type:'line',borderColor:'#1a4fa0',backgroundColor:'rgba(26,79,160,.1)',tension:.4,fill:true,pointRadius:5,order:0}
-      ]
-    },
-    options:{responsive:true,plugins:{legend:{labels:{color:'#7a7570',font:{family:'IBM Plex Sans',size:11}}}},
-      scales:{x:{ticks:{color:'#7a7570'},grid:{color:'#d6d0c7'}},y:{ticks:{color:'#7a7570',callback:v=>v.toFixed(0)+'L'},grid:{color:'#d6d0c7'}}}}
-  });
-
-  // ── CASHFLOW PAGE ─────────────────────────────────────
-  const cfKPI = document.getElementById('cfKPI');
-  const cumulNCF = annNCF.reduce((a,b)=>a+b,0);
-  const payback  = (() => {
-    let cum = -(secDepAmt+brokAmt+foTotalInv);
-    for(let i=0;i<annNCF.length;i++){ cum+=annNCF[i]; if(cum>=0) return i+1; }
-    return '>'+YEARS;
-  })();
-  cfKPI.innerHTML = `
-    <div class="kpi"><div class="k-label">Initial Investment</div><div class="k-val orange">${fmtL(secDepAmt+brokAmt+foTotalInv)}</div></div>
-    <div class="kpi"><div class="k-label">5-Year Cumulative NCF</div><div class="k-val ${cumulNCF>=0?'green':''}"><span style="font-size:1.2rem">${fmtL(cumulNCF)}</span></div></div>
-    <div class="kpi"><div class="k-label">Payback Period</div><div class="k-val blue">${payback} yrs</div></div>
-    <div class="kpi"><div class="k-label">IRR</div><div class="k-val ${isFinite(irrVal)&&irrVal>0?'green':''}"><span style="font-size:1.4rem">${isFinite(irrVal)?(irrVal*100).toFixed(1)+'%':'N/A'}</span></div></div>
-    <div class="kpi"><div class="k-label">Yr1 EBITDA Margin</div><div class="k-val">${annRev[0]>0?(annEBITDA[0]/annRev[0]*100).toFixed(1)+'%':'—'}</div></div>
-  `;
-
-  // Monthly CF table (12 cols)
-  document.getElementById('cfHead').innerHTML = '<tr><th>Metric</th>'+
-    Array.from({length:12},(_,i)=>`<th>M${i+1}</th>`).join('')+'</tr>';
-
-  const cfRows = ['Revenue','Rent','Opex','Brokerage','EBITDA'];
-  let cfHtml='';
-  for(let ri=0;ri<cfRows.length;ri++){
-    const isTot = ri===4;
-    cfHtml+=`<tr ${isTot?'class="subtotal"':''}><td>${cfRows[ri]}</td>`;
-    for(let m=0;m<12;m++){
-      const occ = m<MONTHS?occArr[m]:targetOcc;
-      const seats=Math.round(noSeats*occ/100);
-      const rev  =seats*revPerSeat;
-      const rent =m<leaseFree?0:monthlyBaseRent;
-      const opex =totalExpPerSeat*noSeats+(cam*grossCarpet);
-      const brok =rev*custBrokPct/100;
-      const ebitda=rev-rent-opex-brok;
-      const vals=[rev,rent,opex,brok,ebitda];
-      const v=vals[ri];
-      const neg=ri>0&&ri<4;
-      cfHtml+=`<td class="${v<0?'neg':(ri===4&&v>=0?'pos':'')}">${neg?'('+fmt(Math.abs(v))+')':fmt(v)}</td>`;
-    }
-    cfHtml+='</tr>';
-  }
-  document.getElementById('cfBody').innerHTML = cfHtml;
-
-  // Monthly CF chart
-  const mLabels=[]; const mEBITDA=[];
-  for(let m=0;m<MONTHS;m++){
-    mLabels.push('M'+(m+1));
-    const occ=occArr[m]; const seats=Math.round(noSeats*occ/100);
-    const yr=Math.floor(m/12);
-    const rev=seats*revPerSeat*Math.pow(1+revEsc/100,yr);
-    const rent=m<leaseFree?0:monthlyBaseRent*Math.pow(1+fixedEsc/100,yr);
-    const opex=totalExpPerSeat*noSeats*Math.pow(1+expGrowth/100,yr)+(cam*grossCarpet);
-    const brok=rev*custBrokPct/100;
-    mEBITDA.push((rev-rent-opex-brok)/100000);
-  }
-  mkChart('cfChart',{
-    type:'line',
-    data:{
-      labels:mLabels,
-      datasets:[{
-        label:'Monthly EBITDA (₹L)', data:mEBITDA,
-        borderColor:'#2d6a4f', backgroundColor:'rgba(45,106,79,.12)',
-        fill:true, tension:.35, pointRadius:2, borderWidth:2
-      }]
-    },
-    options:{responsive:true,
-      plugins:{legend:{labels:{color:'#7a7570',font:{family:'IBM Plex Sans',size:11}}}},
-      scales:{
-        x:{ticks:{color:'#7a7570',font:{family:'IBM Plex Mono',size:9}},grid:{color:'#d6d0c7'}},
-        y:{ticks:{color:'#7a7570',callback:v=>v.toFixed(1)+'L'},grid:{color:'#d6d0c7'}}
-      }
-    }
-  });
+  latest={annRev,annRent,annOpex,annBrok,annDep,annEBITDA,annNCF,monthlyRev,monthlyRent,expItems,totalExpPerSeat,secDepAmt,brokAmt,foTotalInv};
 }
 
-// ── CSV EXPORT ─────────────────────────────────────────────
-function exportCSV() {
-  const rows=[
-    ['CoWork Financial Model - Export'],[''],
+function exportExcel(){
+  calc();
+  const wb=XLSX.utils.book_new();
+
+  function sheet(name,rows){
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=rows[0].map((_,i)=>({wch:Math.min(Math.max(...rows.map(r=>String(r[i]||'').length))+2,35)}));
+    XLSX.utils.book_append_sheet(wb,ws,name.substring(0,31));
+  }
+  function inp(id){return document.getElementById(id)?.value || ''}
+  function tableRows(sel){return Array.from(document.querySelectorAll(sel+' tr')).map(tr=>Array.from(tr.children).map(td=>td.innerText.trim()))}
+
+  sheet('Assumptions',[
     ['Metric','Value'],
-    ['Total BUA (sqft)', document.getElementById('totalBUA').value],
-    ['No. of Seats', document.getElementById('noSeats').value],
-    ['Rent/sqft/mo (₹)', document.getElementById('rentPerSqft').value],
-    ['FO Cost/sqft (₹)', document.getElementById('foCostSqft').value],
-    ['Revenue/Seat/mo (₹)', document.getElementById('revenuePerSeat').value],
-    ['Target Occupancy (%)', document.getElementById('targetOcc').value],
-  ];
-  const csv=rows.map(r=>r.join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download='cowork_model.csv'; a.click();
+    ['Total Built-Up Area',inp('totalBUA')],['Carpet / SBA',inp('carpetSBA')],['Gross Carpet Area',inp('grossCarpet')],
+    ['Sqft Per Seat',inp('sqftPerSeat')],['No. of Seats',inp('noSeats')],['Rental Model',inp('rentalModel')],
+    ['CAM',inp('cam')],['Rent Per Sqft',inp('rentPerSqft')],['Fixed Escalation %',inp('fixedEsc')],
+    ['Lease Free Months',inp('leaseFree')],['Security Deposit Months',inp('secDep')],['Security Deposit Amount',inp('secDepAmt')],
+    ['Brokerage Months',inp('brokMonths')],['Brokerage Amount',inp('brokAmt')]
+  ]);
+
+  sheet('Fit Out',[
+    ['Metric','Value'],
+    ['FO Duration',inp('foDuration')],['FO Cost / Sqft',inp('foCostSqft')],['FO Amortisation Period',inp('foAmortPeriod')],
+    ['FO Dep + Soft Interest',inp('foDepSoft')],['FO FF&E',inp('foFFE')],['FO Exit Months',inp('foExitMonths')],
+    ['Total FO Investment',inp('foTotalInv')],['FO Cost / Seat',inp('foCostSeat')],['Monthly Depreciation',inp('foMonthlyDep')]
+  ]);
+
+  sheet('Occupancy',[
+    ['Metric','Value'],
+    ['Target Occupancy %',inp('targetOcc')],['Ramp Months',inp('rampMonths')],['Opening Occupancy %',inp('openOcc')],
+    ['Revenue / Seat / Month',inp('revenuePerSeat')],['Revenue Escalation %',inp('revEsc')],['Customer Brokerage %',inp('custBrok')]
+  ]);
+
+  sheet('Expenses',tableRows('#page-expenses table'));
+  sheet('P&L Summary',tableRows('#pnlTable'));
+  sheet('Cashflow',tableRows('#cfTable'));
+
+  XLSX.writeFile(wb,'cowork_financial_model.xlsx');
 }
 
-// ── INIT ──────────────────────────────────────────────────
-['fixedEsc','targetOcc','openOcc','revEsc','expGrowth'].forEach(id=>{
-  const map={fixedEsc:'fixedEscV',targetOcc:'targetOccV',openOcc:'openOccV',revEsc:'revEscV',expGrowth:'expGrowthV'};
-  syncS(id,map[id],'%');
-});
+['fixedEsc','targetOcc','openOcc','revEsc'].forEach(id=>syncS(id,id+'V'));
 calc();
 </script>
 </body>
 </html>
+```
