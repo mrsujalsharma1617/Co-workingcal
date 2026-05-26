@@ -1,4 +1,13 @@
-Copy-paste this as one full HTML file. It includes the **Excel export** directly.
+Below is the **full updated model** with:
+
+- Excel export
+- Executive Summary / Presentation View
+- Print / Save PDF option
+- Management KPIs
+- Decision status
+- Risk notes
+- Professional summary chart
+
 
 ```html
 <!DOCTYPE html>
@@ -12,56 +21,199 @@ Copy-paste this as one full HTML file. It includes the **Excel export** directly
 
 <style>
 :root{
-  --bg:#f5f2ed;--ink:#1a1814;--surface:#fff;--border:#d6d0c7;
-  --accent:#e85d26;--green:#2d6a4f;--blue:#1a4fa0;--muted:#7a7570;
-  --display:'Syne',sans-serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --bg:#f5f2ed;
+  --ink:#1a1814;
+  --surface:#fff;
+  --border:#d6d0c7;
+  --accent:#e85d26;
+  --green:#2d6a4f;
+  --blue:#1a4fa0;
+  --muted:#7a7570;
+  --light:#ebe7e0;
+  --display:'Syne',sans-serif;
+  --sans:'IBM Plex Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px}
-header{height:58px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10}
-.logo{font-family:var(--display);font-weight:800;font-size:1.2rem}.logo span{color:var(--accent)}
-button{cursor:pointer}
-.hbtn{background:var(--accent);border:0;color:#fff;border-radius:6px;padding:8px 16px;font-weight:700}
+header{
+  height:58px;background:var(--ink);color:var(--bg);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;position:sticky;top:0;z-index:10
+}
+.logo{font-family:var(--display);font-weight:800;font-size:1.2rem}
+.logo span{color:var(--accent)}
+.header-btns{display:flex;gap:8px;flex-wrap:wrap}
+button{cursor:pointer;font-family:var(--sans)}
+.hbtn{
+  background:var(--accent);border:0;color:#fff;border-radius:6px;
+  padding:8px 14px;font-weight:700;font-size:.78rem
+}
+.hbtn.secondary{background:var(--green)}
 .tabs{display:flex;overflow:auto;background:#fff;border-bottom:2px solid var(--ink)}
-.tab{padding:13px 18px;border-right:1px solid var(--border);font-family:var(--display);font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--muted)}
+.tab{
+  padding:13px 18px;border:0;border-right:1px solid var(--border);
+  background:#fff;font-family:var(--display);font-size:.75rem;font-weight:800;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap
+}
 .tab.active{background:var(--ink);color:var(--bg)}
 .page{display:none;max-width:1350px;margin:auto;padding:28px}
 .page.active{display:block}
-.section-title{font-family:var(--display);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:16px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.section-title{
+  font-family:var(--display);font-size:.72rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+  border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:16px
+}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px}
-.field{margin-bottom:14px}.field label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:5px;font-weight:600}
-input,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:var(--mono)}
-.slider-row{display:flex;align-items:center;gap:10px}.slider-val{font-family:var(--mono);min-width:52px;color:var(--accent);text-align:right}
-.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--ink);border:2px solid var(--ink);border-radius:8px;overflow:hidden;margin:20px 0}
-.kpi{background:#fff;text-align:center;padding:18px 10px}.k-label{font-size:.62rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:.1em}.k-val{font-family:var(--display);font-size:1.45rem;font-weight:800;margin-top:5px}.orange{color:var(--accent)}.green{color:var(--green)}.blue{color:var(--blue)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:5px;font-weight:600}
+input,select{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  border-radius:6px;padding:8px 10px;font-family:var(--mono);color:var(--ink)
+}
+input[readonly]{opacity:.75}
+.slider-row{display:flex;align-items:center;gap:10px}
+.slider-row input{padding:0}
+.slider-val{font-family:var(--mono);min-width:52px;color:var(--accent);text-align:right}
+.kpi-strip{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:var(--ink);border:2px solid var(--ink);
+  border-radius:8px;overflow:hidden;margin:20px 0
+}
+.kpi{background:#fff;text-align:center;padding:18px 10px}
+.k-label{
+  font-size:.62rem;text-transform:uppercase;color:var(--muted);
+  font-weight:700;letter-spacing:.1em
+}
+.k-val{
+  font-family:var(--display);font-size:1.38rem;font-weight:800;
+  margin-top:6px;line-height:1.05
+}
+.orange{color:var(--accent)}
+.green{color:var(--green)}
+.blue{color:var(--blue)}
 .tbl-wrap{overflow:auto;border:1px solid var(--border);border-radius:8px;background:#fff;margin-top:16px}
-table{width:100%;border-collapse:collapse;font-size:.75rem}th{background:var(--ink);color:var(--bg);padding:9px;text-align:right;font-family:var(--display);font-size:.65rem;text-transform:uppercase}th:first-child,td:first-child{text-align:left}
-td{padding:8px 10px;border-top:1px solid var(--border);text-align:right;font-family:var(--mono)}td:first-child{font-family:var(--sans);color:var(--muted)}
-.subtotal td{background:rgba(232,93,38,.08);font-weight:800;color:var(--accent)}.neg{color:#dc2626}.pos{color:var(--green)}
-.chart-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;margin-top:18px}.chart-label{font-size:.7rem;font-weight:800;text-transform:uppercase;color:var(--blue);letter-spacing:.1em;margin-bottom:12px}
-.occ-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}.occ-cell{border-radius:4px;height:38px;color:#fff;font-family:var(--mono);font-size:.58rem;display:flex;align-items:center;justify-content:center;text-align:center}
-.scale-group{margin-bottom:14px;color:var(--muted)}.scale-group button{border:1px solid var(--border);background:#fff;border-radius:5px;padding:5px 12px}.scale-group button.active{background:var(--ink);color:var(--bg)}
-@media(max-width:850px){.grid-3,.grid-2,.kpi-strip{grid-template-columns:1fr}.page{padding:18px}}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+th{
+  background:var(--ink);color:var(--bg);padding:9px;text-align:right;
+  font-family:var(--display);font-size:.65rem;text-transform:uppercase;white-space:nowrap
+}
+th:first-child,td:first-child{text-align:left}
+td{padding:8px 10px;border-top:1px solid var(--border);text-align:right;font-family:var(--mono);white-space:nowrap}
+td:first-child{font-family:var(--sans);color:var(--muted)}
+.subtotal td{background:rgba(232,93,38,.08);font-weight:800;color:var(--accent)}
+.neg{color:#dc2626}
+.pos{color:var(--green)}
+.chart-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;margin-top:18px}
+.chart-label{
+  font-size:.7rem;font-weight:800;text-transform:uppercase;
+  color:var(--blue);letter-spacing:.1em;margin-bottom:12px
+}
+canvas{max-height:300px}
+.occ-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.occ-cell{
+  border-radius:4px;height:38px;color:#fff;font-family:var(--mono);
+  font-size:.58rem;display:flex;align-items:center;justify-content:center;text-align:center
+}
+.scale-group{margin-bottom:14px;color:var(--muted)}
+.scale-group button{
+  border:1px solid var(--border);background:#fff;border-radius:5px;
+  padding:5px 12px;margin-left:4px
+}
+.scale-group button.active{background:var(--ink);color:var(--bg)}
+.note-list{display:grid;gap:10px}
+.note{
+  border:1px solid var(--border);border-radius:8px;background:var(--bg);
+  padding:12px
+}
+.note strong{display:block;font-family:var(--display);font-size:.78rem;margin-bottom:4px}
+.note span{color:var(--muted);font-size:.82rem}
+
+@media(max-width:850px){
+  header{height:auto;align-items:flex-start;gap:12px;padding:14px 18px;flex-direction:column}
+  .grid-3,.grid-2,.kpi-strip{grid-template-columns:1fr}
+  .page{padding:18px}
+}
+
+@media print{
+  header,.tabs,.scale-group,button{display:none!important}
+  body{background:#fff}
+  .page{display:none!important;padding:0;max-width:none}
+  #page-summary{display:block!important}
+  .card,.chart-box,.kpi-strip{break-inside:avoid}
+  .kpi-strip{grid-template-columns:repeat(5,1fr)}
+}
 </style>
 </head>
 
 <body>
 <header>
   <div class="logo">CoWork<span>Finance</span></div>
-  <button class="hbtn" onclick="exportExcel()">Export Excel</button>
+  <div class="header-btns">
+    <button class="hbtn secondary" onclick="switchTab(null,'summary')">Presentation View</button>
+    <button class="hbtn secondary" onclick="window.print()">Print / Save PDF</button>
+    <button class="hbtn" onclick="exportExcel()">Export Excel</button>
+  </div>
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab(event,'assumptions')">Assumptions</button>
-  <button class="tab" onclick="switchTab(event,'fitout')">Fit-Out</button>
-  <button class="tab" onclick="switchTab(event,'occupancy')">Occupancy</button>
-  <button class="tab" onclick="switchTab(event,'expenses')">Expenses</button>
-  <button class="tab" onclick="switchTab(event,'pnl')">P&L</button>
-  <button class="tab" onclick="switchTab(event,'cashflow')">Cashflow</button>
+  <button class="tab active" data-tab="summary" onclick="switchTab(event,'summary')">Executive Summary</button>
+  <button class="tab" data-tab="assumptions" onclick="switchTab(event,'assumptions')">Assumptions</button>
+  <button class="tab" data-tab="fitout" onclick="switchTab(event,'fitout')">Fit-Out</button>
+  <button class="tab" data-tab="occupancy" onclick="switchTab(event,'occupancy')">Occupancy</button>
+  <button class="tab" data-tab="expenses" onclick="switchTab(event,'expenses')">Expenses</button>
+  <button class="tab" data-tab="pnl" onclick="switchTab(event,'pnl')">P&L</button>
+  <button class="tab" data-tab="cashflow" onclick="switchTab(event,'cashflow')">Cashflow</button>
 </div>
 
-<div class="page active" id="page-assumptions">
+<div class="page active" id="page-summary">
+  <div class="section-title">Management Presentation Summary</div>
+
+  <div class="kpi-strip">
+    <div class="kpi"><div class="k-label">Project Seats</div><div id="sumSeats" class="k-val"></div></div>
+    <div class="kpi"><div class="k-label">Initial Investment</div><div id="sumInvestment" class="k-val orange"></div></div>
+    <div class="kpi"><div class="k-label">Year 1 EBITDA</div><div id="sumEBITDA" class="k-val"></div></div>
+    <div class="kpi"><div class="k-label">Project IRR</div><div id="sumIRR" class="k-val green"></div></div>
+    <div class="kpi"><div class="k-label">Decision</div><div id="sumDecision" class="k-val blue"></div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title">Investment Case</div>
+      <div class="tbl-wrap" style="margin-top:0">
+        <table>
+          <tbody>
+            <tr><td>Total Built-Up Area</td><td id="sumBUA"></td></tr>
+            <tr><td>Revenue / Seat / Month</td><td id="sumRevSeat"></td></tr>
+            <tr><td>Target Occupancy</td><td id="sumOcc"></td></tr>
+            <tr><td>Monthly Rent</td><td id="sumRent"></td></tr>
+            <tr><td>Security Deposit</td><td id="sumSecDep"></td></tr>
+            <tr><td>Fit-Out Investment</td><td id="sumFO"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Management Notes</div>
+      <div class="note-list">
+        <div class="note"><strong>Revenue Strength</strong><span id="sumRevenueNote"></span></div>
+        <div class="note"><strong>Profitability</strong><span id="sumProfitNote"></span></div>
+        <div class="note"><strong>Capital Risk</strong><span id="sumRiskNote"></span></div>
+        <div class="note"><strong>Overall View</strong><span id="sumOverallNote"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-label">5-Year Management View: Revenue, EBITDA and Net Cashflow</div>
+    <canvas id="summaryChart"></canvas>
+  </div>
+</div>
+
+<div class="page" id="page-assumptions">
   <div class="section-title">Property & Financial Assumptions</div>
   <div class="grid-3">
     <div class="card">
@@ -82,9 +234,20 @@ td{padding:8px 10px;border-top:1px solid var(--border);text-align:right;font-fam
   </div>
 
   <div class="grid-3" style="margin-top:16px">
-    <div class="card"><div class="field"><label>Security Deposit Months</label><input id="secDep" type="number" value="7" oninput="calc()"></div><div class="field"><label>Security Deposit Amount</label><input id="secDepAmt" readonly></div></div>
-    <div class="card"><div class="field"><label>Brokerage Months</label><input id="brokMonths" type="number" value="4" oninput="calc()"></div><div class="field"><label>Brokerage Amount</label><input id="brokAmt" readonly></div></div>
-    <div class="card"><div class="field"><label>Fixed Escalation %</label><div class="slider-row"><input id="fixedEsc" type="range" min="0" max="20" step=".5" value="5" oninput="syncS('fixedEsc','fixedEscV');calc()"><span id="fixedEscV" class="slider-val">5%</span></div></div></div>
+    <div class="card">
+      <div class="field"><label>Security Deposit Months</label><input id="secDep" type="number" value="7" oninput="calc()"></div>
+      <div class="field"><label>Security Deposit Amount</label><input id="secDepAmt" readonly></div>
+    </div>
+    <div class="card">
+      <div class="field"><label>Brokerage Months</label><input id="brokMonths" type="number" value="4" oninput="calc()"></div>
+      <div class="field"><label>Brokerage Amount</label><input id="brokAmt" readonly></div>
+    </div>
+    <div class="card">
+      <div class="field">
+        <label>Fixed Escalation %</label>
+        <div class="slider-row"><input id="fixedEsc" type="range" min="0" max="20" step=".5" value="5" oninput="syncS('fixedEsc','fixedEscV');calc()"><span id="fixedEscV" class="slider-val">5%</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="kpi-strip">
@@ -136,15 +299,37 @@ td{padding:8px 10px;border-top:1px solid var(--border);text-align:right;font-fam
 <div class="page" id="page-expenses">
   <div class="section-title">Operating Expenses</div>
   <div class="grid-3">
-    <div class="card"><div class="field"><label>IT & Internet</label><input id="expIT" type="number" value="5.17" oninput="calc()"></div><div class="field"><label>HQ Staff Salary</label><input id="expHQ" type="number" value="5.17" oninput="calc()"></div><div class="field"><label>Tea/Coffee</label><input id="expTC" type="number" value="0.17" oninput="calc()"></div></div>
-    <div class="card"><div class="field"><label>Property Management</label><input id="expPM" type="number" value="1.22" oninput="calc()"></div><div class="field"><label>Repair & Maintenance</label><input id="expRM" type="number" value="1.63" oninput="calc()"></div><div class="field"><label>Central Operating Staff</label><input id="expCO" type="number" value="1.03" oninput="calc()"></div></div>
-    <div class="card"><div class="field"><label>Technology Expense</label><input id="expTech" type="number" value="1.27" oninput="calc()"></div><div class="field"><label>Housekeeping</label><input id="expHK" type="number" value="3.57" oninput="calc()"></div><div class="field"><label>Expense Growth %</label><input id="expGrowth" type="number" value="5" oninput="calc()"></div></div>
+    <div class="card">
+      <div class="field"><label>IT & Internet</label><input id="expIT" type="number" value="5.17" oninput="calc()"></div>
+      <div class="field"><label>HQ Staff Salary</label><input id="expHQ" type="number" value="5.17" oninput="calc()"></div>
+      <div class="field"><label>Tea/Coffee</label><input id="expTC" type="number" value="0.17" oninput="calc()"></div>
+    </div>
+    <div class="card">
+      <div class="field"><label>Property Management</label><input id="expPM" type="number" value="1.22" oninput="calc()"></div>
+      <div class="field"><label>Repair & Maintenance</label><input id="expRM" type="number" value="1.63" oninput="calc()"></div>
+      <div class="field"><label>Central Operating Staff</label><input id="expCO" type="number" value="1.03" oninput="calc()"></div>
+    </div>
+    <div class="card">
+      <div class="field"><label>Technology Expense</label><input id="expTech" type="number" value="1.27" oninput="calc()"></div>
+      <div class="field"><label>Housekeeping</label><input id="expHK" type="number" value="3.57" oninput="calc()"></div>
+      <div class="field"><label>Expense Growth %</label><input id="expGrowth" type="number" value="5" oninput="calc()"></div>
+    </div>
   </div>
-  <div class="tbl-wrap"><table><thead><tr><th>Expense Head</th><th>Per Seat/Mo</th><th>Annual</th><th>% Total</th></tr></thead><tbody id="expTable"></tbody></table></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Expense Head</th><th>Per Seat/Mo</th><th>Annual</th><th>% Total</th></tr></thead>
+      <tbody id="expTable"></tbody>
+    </table>
+  </div>
 </div>
 
 <div class="page" id="page-pnl">
-  <div class="scale-group">Scale: <button id="sc-abs" class="active" onclick="setScale('abs')">₹</button> <button id="sc-l" onclick="setScale('l')">Lakh</button> <button id="sc-cr" onclick="setScale('cr')">Crore</button></div>
+  <div class="scale-group">
+    Scale:
+    <button id="sc-abs" class="active" onclick="setScale('abs')">₹</button>
+    <button id="sc-l" onclick="setScale('l')">Lakh</button>
+    <button id="sc-cr" onclick="setScale('cr')">Crore</button>
+  </div>
   <div class="kpi-strip">
     <div class="kpi"><div class="k-label">Year 1 EBITDA</div><div id="ebitda1" class="k-val"></div></div>
     <div class="kpi"><div class="k-label">IRR</div><div id="pnlIRR" class="k-val green"></div></div>
@@ -164,127 +349,372 @@ td{padding:8px 10px;border-top:1px solid var(--border);text-align:right;font-fam
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <script>
-let scale=1,scaleLbl='₹',charts={},latest={};
+let scale = 1;
+let scaleLbl = '₹';
+let charts = {};
+let latest = {};
 
-function val(id){return +document.getElementById(id).value || 0}
-function fmtL(v){return '₹'+(v/100000).toFixed(2)+'L'}
-function fmt(v){return scale===1?'₹'+Math.round(v).toLocaleString('en-IN'):scaleLbl+' '+(v/scale).toFixed(2)}
-function syncS(id,out){document.getElementById(out).textContent=val(id).toFixed(id==='targetOcc'||id==='openOcc'?0:1)+'%'}
-function setScale(s){scale=s==='l'?100000:s==='cr'?10000000:1;scaleLbl=s==='l'?'₹L':s==='cr'?'₹Cr':'₹';document.querySelectorAll('.scale-group button').forEach(b=>b.classList.remove('active'));document.getElementById('sc-'+s).classList.add('active');calc()}
-function switchTab(e,name){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById('page-'+name).classList.add('active')}
-function mkChart(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg)}
-function irr(cfs){let r=.1;for(let i=0;i<100;i++){let n=0,d=0;cfs.forEach((cf,t)=>{n+=cf/Math.pow(1+r,t);d-=t*cf/Math.pow(1+r,t+1)});let nr=r-n/d;if(Math.abs(nr-r)<1e-7)return nr;r=nr}return r}
+function el(id){ return document.getElementById(id); }
+function val(id){ return +el(id).value || 0; }
+function fmtL(v){ return '₹' + (v / 100000).toFixed(2) + 'L'; }
+function fmt(v){
+  if(scale === 1) return '₹' + Math.round(v).toLocaleString('en-IN');
+  return scaleLbl + ' ' + (v / scale).toFixed(2);
+}
+function syncS(id,out){
+  const decimals = id === 'targetOcc' || id === 'openOcc' ? 0 : 1;
+  el(out).textContent = val(id).toFixed(decimals) + '%';
+}
+function setScale(s){
+  scale = s === 'l' ? 100000 : s === 'cr' ? 10000000 : 1;
+  scaleLbl = s === 'l' ? '₹L' : s === 'cr' ? '₹Cr' : '₹';
+  document.querySelectorAll('.scale-group button').forEach(b => b.classList.remove('active'));
+  el('sc-' + s).classList.add('active');
+  calc();
+}
+function switchTab(event,name){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+  const tab = document.querySelector('.tab[data-tab="' + name + '"]');
+  if(tab) tab.classList.add('active');
+
+  el('page-' + name).classList.add('active');
+
+  setTimeout(() => {
+    Object.values(charts).forEach(chart => chart.resize());
+  }, 80);
+}
+function mkChart(id,cfg){
+  if(charts[id]) charts[id].destroy();
+  const canvas = el(id);
+  if(!canvas) return;
+  charts[id] = new Chart(canvas, cfg);
+}
+function irr(cfs){
+  let r = .1;
+  for(let i = 0; i < 100; i++){
+    let n = 0, d = 0;
+    cfs.forEach((cf,t) => {
+      n += cf / Math.pow(1 + r, t);
+      d -= t * cf / Math.pow(1 + r, t + 1);
+    });
+    if(d === 0) return NaN;
+    let nr = r - n / d;
+    if(Math.abs(nr - r) < 1e-7) return nr;
+    r = nr;
+  }
+  return r;
+}
 
 function calc(){
-  const totalBUA=val('totalBUA'),grossCarpet=val('grossCarpet'),noSeats=val('noSeats'),rentPerSqft=val('rentPerSqft');
-  const monthlyBaseRent=rentPerSqft*totalBUA,annualRent=monthlyBaseRent*12,secDepAmt=monthlyBaseRent*val('secDep'),brokAmt=monthlyBaseRent*val('brokMonths');
-  document.getElementById('secDepAmt').value=Math.round(secDepAmt);
-  document.getElementById('brokAmt').value=Math.round(brokAmt);
-  kSeats.textContent=noSeats.toLocaleString('en-IN');kRent.textContent=fmtL(monthlyBaseRent);kAnnRent.textContent=fmtL(annualRent);kSecDep.textContent=fmtL(secDepAmt);kBrok.textContent=fmtL(brokAmt);
+  const totalBUA = val('totalBUA');
+  const grossCarpet = val('grossCarpet');
+  const noSeats = val('noSeats');
+  const rentPerSqft = val('rentPerSqft');
+  const monthlyBaseRent = rentPerSqft * totalBUA;
+  const annualRent = monthlyBaseRent * 12;
+  const secDepAmt = monthlyBaseRent * val('secDep');
+  const brokAmt = monthlyBaseRent * val('brokMonths');
 
-  const foTotalInv=val('foCostSqft')*grossCarpet,foMonthlyDep=foTotalInv/(val('foAmortPeriod')||1),foCostSeat=noSeats?foTotalInv/noSeats:0;
-  foTotalInvEl=document.getElementById('foTotalInv');foTotalInvEl.value=Math.round(foTotalInv);
-  foCostSeat.value=Math.round(foCostSeat);foMonthlyDep.value=Math.round(foMonthlyDep);
+  el('secDepAmt').value = Math.round(secDepAmt);
+  el('brokAmt').value = Math.round(brokAmt);
 
-  const MONTHS=40,YEARS=5,targetOcc=val('targetOcc'),openOcc=val('openOcc'),rampMonths=val('rampMonths')||1;
-  const revPerSeat=val('revenuePerSeat'),revEsc=val('revEsc'),fixedEsc=val('fixedEsc'),leaseFree=val('leaseFree'),custBrokPct=val('custBrok');
-  const expGrowth=val('expGrowth'),cam=val('cam');
-  const expItems=[
-    ['IT & Internet',val('expIT')],['HQ Staff',val('expHQ')],['Tea/Coffee',val('expTC')],['Property Management',val('expPM')],
-    ['Repair & Maintenance',val('expRM')],['Central Ops',val('expCO')],['Technology',val('expTech')],['Housekeeping',val('expHK')]
+  el('kSeats').textContent = noSeats.toLocaleString('en-IN');
+  el('kRent').textContent = fmtL(monthlyBaseRent);
+  el('kAnnRent').textContent = fmtL(annualRent);
+  el('kSecDep').textContent = fmtL(secDepAmt);
+  el('kBrok').textContent = fmtL(brokAmt);
+
+  const foTotalInvestment = val('foCostSqft') * grossCarpet;
+  const foMonthlyDepValue = foTotalInvestment / (val('foAmortPeriod') || 1);
+  const foCostSeatValue = noSeats ? foTotalInvestment / noSeats : 0;
+
+  el('foTotalInv').value = Math.round(foTotalInvestment);
+  el('foCostSeat').value = Math.round(foCostSeatValue);
+  el('foMonthlyDep').value = Math.round(foMonthlyDepValue);
+
+  const MONTHS = 40;
+  const YEARS = 5;
+  const targetOcc = val('targetOcc');
+  const openOcc = val('openOcc');
+  const rampMonths = val('rampMonths') || 1;
+  const revPerSeat = val('revenuePerSeat');
+  const revEsc = val('revEsc');
+  const fixedEsc = val('fixedEsc');
+  const leaseFree = val('leaseFree');
+  const custBrokPct = val('custBrok');
+  const expGrowth = val('expGrowth');
+  const cam = val('cam');
+
+  const expItems = [
+    ['IT & Internet', val('expIT')],
+    ['HQ Staff', val('expHQ')],
+    ['Tea/Coffee', val('expTC')],
+    ['Property Management', val('expPM')],
+    ['Repair & Maintenance', val('expRM')],
+    ['Central Ops', val('expCO')],
+    ['Technology', val('expTech')],
+    ['Housekeeping', val('expHK')]
   ];
-  const totalExpPerSeat=expItems.reduce((a,b)=>a+b[1],0);
+  const totalExpPerSeat = expItems.reduce((a,b) => a + b[1], 0);
 
-  let occArr=[];
-  for(let m=1;m<=MONTHS;m++){let f=Math.min(m/rampMonths,1);occArr.push(openOcc+(targetOcc-openOcc)*f)}
-  occHeatmap.innerHTML='<div class="occ-grid">'+occArr.map((o,i)=>`<div class="occ-cell" style="background:rgb(${232-(o*1.7)},${93+(o*.65)},${38+(o*.4)})">M${i+1}<br>${o.toFixed(0)}%</div>`).join('')+'</div>';
-
-  let monthlyRev=[],monthlyRent=[];
-  for(let m=0;m<MONTHS;m++){
-    let yr=Math.floor(m/12),seats=Math.round(noSeats*occArr[m]/100);
-    monthlyRev.push(seats*revPerSeat*Math.pow(1+revEsc/100,yr));
-    monthlyRent.push(m<leaseFree?0:monthlyBaseRent*Math.pow(1+fixedEsc/100,yr));
+  let occArr = [];
+  for(let m = 1; m <= MONTHS; m++){
+    let f = Math.min(m / rampMonths, 1);
+    occArr.push(openOcc + (targetOcc - openOcc) * f);
   }
-  mkChart('occChart',{type:'bar',data:{labels:monthlyRev.map((_,i)=>'M'+(i+1)),datasets:[
-    {label:'Revenue',data:monthlyRev.map(v=>v/100000),backgroundColor:'rgba(45,106,79,.7)'},
-    {label:'Rent',data:monthlyRent.map(v=>v/100000),backgroundColor:'rgba(232,93,38,.55)'}
-  ]},options:{responsive:true}});
 
-  expTable.innerHTML=expItems.map(e=>{
-    let annual=e[1]*noSeats*12,pct=totalExpPerSeat?e[1]/totalExpPerSeat*100:0;
+  el('occHeatmap').innerHTML = '<div class="occ-grid">' + occArr.map((o,i) => {
+    const r = Math.round(232 + (45 - 232) * (o / 100));
+    const g = Math.round(93 + (106 - 93) * (o / 100));
+    const b = Math.round(38 + (79 - 38) * (o / 100));
+    return `<div class="occ-cell" style="background:rgb(${r},${g},${b})">M${i+1}<br>${o.toFixed(0)}%</div>`;
+  }).join('') + '</div>';
+
+  let monthlyRev = [];
+  let monthlyRent = [];
+
+  for(let m = 0; m < MONTHS; m++){
+    let yr = Math.floor(m / 12);
+    let seats = Math.round(noSeats * occArr[m] / 100);
+    monthlyRev.push(seats * revPerSeat * Math.pow(1 + revEsc / 100, yr));
+    monthlyRent.push(m < leaseFree ? 0 : monthlyBaseRent * Math.pow(1 + fixedEsc / 100, yr));
+  }
+
+  mkChart('occChart',{
+    type:'bar',
+    data:{
+      labels:monthlyRev.map((_,i) => 'M' + (i + 1)),
+      datasets:[
+        {label:'Revenue',data:monthlyRev.map(v => v / 100000),backgroundColor:'rgba(45,106,79,.7)'},
+        {label:'Rent',data:monthlyRent.map(v => v / 100000),backgroundColor:'rgba(232,93,38,.55)'}
+      ]
+    },
+    options:{responsive:true,plugins:{legend:{labels:{color:'#1a1814'}}}}
+  });
+
+  el('expTable').innerHTML = expItems.map(e => {
+    let annual = e[1] * noSeats * 12;
+    let pct = totalExpPerSeat ? e[1] / totalExpPerSeat * 100 : 0;
     return `<tr><td>${e[0]}</td><td>${e[1].toFixed(2)}</td><td>${Math.round(annual).toLocaleString('en-IN')}</td><td>${pct.toFixed(1)}%</td></tr>`;
-  }).join('')+`<tr class="subtotal"><td>Total</td><td>${totalExpPerSeat.toFixed(2)}</td><td>${Math.round(totalExpPerSeat*noSeats*12).toLocaleString('en-IN')}</td><td>100%</td></tr>`;
+  }).join('') + `<tr class="subtotal"><td>Total</td><td>${totalExpPerSeat.toFixed(2)}</td><td>${Math.round(totalExpPerSeat * noSeats * 12).toLocaleString('en-IN')}</td><td>100%</td></tr>`;
 
-  let annRev=[],annRent=[],annOpex=[],annBrok=[],annDep=[],annEBITDA=[],annNCF=[];
-  for(let yr=0;yr<YEARS;yr++){
-    let rev=0,rent=0,opex=0,brok=0;
-    for(let m=0;m<12;m++){
-      let gm=yr*12+m,occ=gm<MONTHS?occArr[gm]:targetOcc,seats=Math.round(noSeats*occ/100);
-      rev+=seats*revPerSeat*Math.pow(1+revEsc/100,yr);
-      rent+=gm<leaseFree?0:monthlyBaseRent*Math.pow(1+fixedEsc/100,yr);
-      opex+=totalExpPerSeat*noSeats*Math.pow(1+expGrowth/100,yr);
-      brok+=seats*revPerSeat*Math.pow(1+revEsc/100,yr)*custBrokPct/100;
+  let annRev = [], annRent = [], annOpex = [], annBrok = [], annDep = [], annEBITDA = [], annNCF = [];
+
+  for(let yr = 0; yr < YEARS; yr++){
+    let rev = 0, rent = 0, opex = 0, brok = 0;
+
+    for(let m = 0; m < 12; m++){
+      let gm = yr * 12 + m;
+      let occ = gm < MONTHS ? occArr[gm] : targetOcc;
+      let seats = Math.round(noSeats * occ / 100);
+      rev += seats * revPerSeat * Math.pow(1 + revEsc / 100, yr);
+      rent += gm < leaseFree ? 0 : monthlyBaseRent * Math.pow(1 + fixedEsc / 100, yr);
+      opex += totalExpPerSeat * noSeats * Math.pow(1 + expGrowth / 100, yr);
+      brok += seats * revPerSeat * Math.pow(1 + revEsc / 100, yr) * custBrokPct / 100;
     }
-    let camAnn=cam*grossCarpet*12,dep=foMonthlyDep*12,ebitda=rev-rent-opex-brok-camAnn,ncf=ebitda-dep;
-    annRev.push(rev);annRent.push(rent);annOpex.push(opex+camAnn);annBrok.push(brok);annDep.push(dep);annEBITDA.push(ebitda);annNCF.push(ncf);
+
+    let camAnn = cam * grossCarpet * 12;
+    let dep = foMonthlyDepValue * 12;
+    let ebitda = rev - rent - opex - brok - camAnn;
+    let ncf = ebitda - dep;
+
+    annRev.push(rev);
+    annRent.push(rent);
+    annOpex.push(opex + camAnn);
+    annBrok.push(brok);
+    annDep.push(dep);
+    annEBITDA.push(ebitda);
+    annNCF.push(ncf);
   }
 
-  let irrVal=irr([-(secDepAmt+brokAmt+foTotalInv),...annNCF]);
-  ebitda1.textContent=fmtL(annEBITDA[0]);pnlIRR.textContent=isFinite(irrVal)?(irrVal*100).toFixed(1)+'%':'N/A';
-  revY1.textContent=fmtL(annRev[0]);opexY1.textContent=fmtL(annOpex[0]);ncfY1.textContent=fmtL(annNCF[0]);
+  let irrVal = irr([-(secDepAmt + brokAmt + foTotalInvestment), ...annNCF]);
 
-  const years=['Year 1','Year 2','Year 3','Year 4','Year 5'];
-  pnlHead.innerHTML='<tr><th>Metric</th>'+years.map(y=>`<th>${y}</th>`).join('')+'</tr>';
-  const rows=[['Gross Revenue',annRev],['Brokerage',annBrok,true],['Rent',annRent,true],['Operating Opex',annOpex,true],['EBITDA',annEBITDA],['Depreciation',annDep,true],['Net Cashflow',annNCF]];
-  pnlBody.innerHTML=rows.map(r=>`<tr class="${r[0]==='EBITDA'||r[0]==='Net Cashflow'?'subtotal':''}"><td>${r[0]}</td>${r[1].map(v=>`<td>${r[2]?'('+fmt(v)+')':fmt(v)}</td>`).join('')}</tr>`).join('');
+  el('ebitda1').textContent = fmtL(annEBITDA[0]);
+  el('pnlIRR').textContent = isFinite(irrVal) ? (irrVal * 100).toFixed(1) + '%' : 'N/A';
+  el('revY1').textContent = fmtL(annRev[0]);
+  el('opexY1').textContent = fmtL(annOpex[0]);
+  el('ncfY1').textContent = fmtL(annNCF[0]);
 
-  cfKPI.innerHTML=`<div class="kpi"><div class="k-label">Initial Investment</div><div class="k-val orange">${fmtL(secDepAmt+brokAmt+foTotalInv)}</div></div><div class="kpi"><div class="k-label">5-Year NCF</div><div class="k-val green">${fmtL(annNCF.reduce((a,b)=>a+b,0))}</div></div><div class="kpi"><div class="k-label">IRR</div><div class="k-val blue">${isFinite(irrVal)?(irrVal*100).toFixed(1)+'%':'N/A'}</div></div><div class="kpi"><div class="k-label">Y1 Margin</div><div class="k-val">${annRev[0]?(annEBITDA[0]/annRev[0]*100).toFixed(1)+'%':'-'}</div></div><div class="kpi"><div class="k-label">Seats</div><div class="k-val">${noSeats}</div></div>`;
-  cfHead.innerHTML='<tr><th>Metric</th>'+Array.from({length:12},(_,i)=>`<th>M${i+1}</th>`).join('')+'</tr>';
-  cfBody.innerHTML=['Revenue','Rent','Opex','Brokerage','EBITDA'].map((name,ri)=>{
-    let cells='';
-    for(let m=0;m<12;m++){
-      let seats=Math.round(noSeats*occArr[m]/100),rev=seats*revPerSeat,rent=m<leaseFree?0:monthlyBaseRent,opex=totalExpPerSeat*noSeats+cam*grossCarpet,brok=rev*custBrokPct/100,ebitda=rev-rent-opex-brok;
-      let arr=[rev,rent,opex,brok,ebitda],v=arr[ri];
-      cells+=`<td>${ri>0&&ri<4?'('+fmt(v)+')':fmt(v)}</td>`;
-    }
-    return `<tr class="${ri===4?'subtotal':''}"><td>${name}</td>${cells}</tr>`;
+  const years = ['Year 1','Year 2','Year 3','Year 4','Year 5'];
+  el('pnlHead').innerHTML = '<tr><th>Metric</th>' + years.map(y => `<th>${y}</th>`).join('') + '</tr>';
+
+  const rows = [
+    ['Gross Revenue', annRev],
+    ['Brokerage', annBrok, true],
+    ['Rent', annRent, true],
+    ['Operating Opex', annOpex, true],
+    ['EBITDA', annEBITDA],
+    ['Depreciation', annDep, true],
+    ['Net Cashflow', annNCF]
+  ];
+
+  el('pnlBody').innerHTML = rows.map(r => {
+    return `<tr class="${r[0] === 'EBITDA' || r[0] === 'Net Cashflow' ? 'subtotal' : ''}">
+      <td>${r[0]}</td>
+      ${r[1].map(v => `<td>${r[2] ? '(' + fmt(v) + ')' : fmt(v)}</td>`).join('')}
+    </tr>`;
   }).join('');
 
-  latest={annRev,annRent,annOpex,annBrok,annDep,annEBITDA,annNCF,monthlyRev,monthlyRent,expItems,totalExpPerSeat,secDepAmt,brokAmt,foTotalInv};
+  el('cfKPI').innerHTML = `
+    <div class="kpi"><div class="k-label">Initial Investment</div><div class="k-val orange">${fmtL(secDepAmt + brokAmt + foTotalInvestment)}</div></div>
+    <div class="kpi"><div class="k-label">5-Year NCF</div><div class="k-val green">${fmtL(annNCF.reduce((a,b) => a + b, 0))}</div></div>
+    <div class="kpi"><div class="k-label">IRR</div><div class="k-val blue">${isFinite(irrVal) ? (irrVal * 100).toFixed(1) + '%' : 'N/A'}</div></div>
+    <div class="kpi"><div class="k-label">Y1 Margin</div><div class="k-val">${annRev[0] ? (annEBITDA[0] / annRev[0] * 100).toFixed(1) + '%' : '-'}</div></div>
+    <div class="kpi"><div class="k-label">Seats</div><div class="k-val">${noSeats}</div></div>
+  `;
+
+  el('cfHead').innerHTML = '<tr><th>Metric</th>' + Array.from({length:12},(_,i) => `<th>M${i+1}</th>`).join('') + '</tr>';
+  el('cfBody').innerHTML = ['Revenue','Rent','Opex','Brokerage','EBITDA'].map((name,ri) => {
+    let cells = '';
+    for(let m = 0; m < 12; m++){
+      let seats = Math.round(noSeats * occArr[m] / 100);
+      let rev = seats * revPerSeat;
+      let rent = m < leaseFree ? 0 : monthlyBaseRent;
+      let opex = totalExpPerSeat * noSeats + cam * grossCarpet;
+      let brok = rev * custBrokPct / 100;
+      let ebitda = rev - rent - opex - brok;
+      let arr = [rev,rent,opex,brok,ebitda];
+      let v = arr[ri];
+      cells += `<td>${ri > 0 && ri < 4 ? '(' + fmt(v) + ')' : fmt(v)}</td>`;
+    }
+    return `<tr class="${ri === 4 ? 'subtotal' : ''}"><td>${name}</td>${cells}</tr>`;
+  }).join('');
+
+  const decision =
+    isFinite(irrVal) && irrVal >= 0.18 && annEBITDA[0] > 0 ? 'Proceed' :
+    isFinite(irrVal) && irrVal >= 0.12 ? 'Review' :
+    'Hold';
+
+  el('sumSeats').textContent = noSeats.toLocaleString('en-IN');
+  el('sumInvestment').textContent = fmtL(secDepAmt + brokAmt + foTotalInvestment);
+  el('sumEBITDA').textContent = fmtL(annEBITDA[0]);
+  el('sumEBITDA').style.color = annEBITDA[0] >= 0 ? '#2d6a4f' : '#dc2626';
+  el('sumIRR').textContent = isFinite(irrVal) ? (irrVal * 100).toFixed(1) + '%' : 'N/A';
+  el('sumDecision').textContent = decision;
+
+  el('sumBUA').textContent = totalBUA.toLocaleString('en-IN') + ' sq ft';
+  el('sumRevSeat').textContent = '₹' + revPerSeat.toLocaleString('en-IN');
+  el('sumOcc').textContent = targetOcc + '%';
+  el('sumRent').textContent = fmtL(monthlyBaseRent);
+  el('sumSecDep').textContent = fmtL(secDepAmt);
+  el('sumFO').textContent = fmtL(foTotalInvestment);
+
+  el('sumRevenueNote').textContent = annRev[4] > annRev[0]
+    ? 'Revenue scales positively over the projection period.'
+    : 'Revenue growth is limited under current assumptions.';
+
+  el('sumProfitNote').textContent = annEBITDA[0] > 0
+    ? 'EBITDA is positive from Year 1.'
+    : 'EBITDA pressure is visible in Year 1.';
+
+  el('sumRiskNote').textContent = foTotalInvestment > annRev[0]
+    ? 'High upfront capex compared with Year 1 revenue.'
+    : 'Capex appears manageable compared with Year 1 revenue.';
+
+  el('sumOverallNote').textContent =
+    decision === 'Proceed' ? 'Financial metrics support management approval.' :
+    decision === 'Review' ? 'Model requires commercial review before approval.' :
+    'Current assumptions do not support approval.';
+
+  mkChart('summaryChart',{
+    type:'bar',
+    data:{
+      labels:years,
+      datasets:[
+        {label:'Revenue',data:annRev.map(v => v / 100000),backgroundColor:'rgba(45,106,79,.72)'},
+        {label:'EBITDA',data:annEBITDA.map(v => v / 100000),backgroundColor:'rgba(26,79,160,.65)'},
+        {label:'Net Cashflow',data:annNCF.map(v => v / 100000),backgroundColor:'rgba(232,93,38,.65)'}
+      ]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{labels:{color:'#1a1814'}}},
+      scales:{y:{ticks:{callback:v => v + 'L'}}}
+    }
+  });
+
+  latest = {
+    annRev, annRent, annOpex, annBrok, annDep, annEBITDA, annNCF,
+    monthlyRev, monthlyRent, expItems, totalExpPerSeat,
+    secDepAmt, brokAmt, foTotalInvestment, irrVal, decision
+  };
 }
 
 function exportExcel(){
   calc();
-  const wb=XLSX.utils.book_new();
+
+  const wb = XLSX.utils.book_new();
 
   function sheet(name,rows){
-    const ws=XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols']=rows[0].map((_,i)=>({wch:Math.min(Math.max(...rows.map(r=>String(r[i]||'').length))+2,35)}));
-    XLSX.utils.book_append_sheet(wb,ws,name.substring(0,31));
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = rows[0].map((_,i) => ({
+      wch: Math.min(Math.max(...rows.map(r => String(r[i] || '').length)) + 2, 38)
+    }));
+    XLSX.utils.book_append_sheet(wb, ws, name.substring(0,31));
   }
-  function inp(id){return document.getElementById(id)?.value || ''}
-  function tableRows(sel){return Array.from(document.querySelectorAll(sel+' tr')).map(tr=>Array.from(tr.children).map(td=>td.innerText.trim()))}
+
+  function inp(id){ return el(id)?.value || ''; }
+
+  function tableRows(sel){
+    return Array.from(document.querySelectorAll(sel + ' tr')).map(tr =>
+      Array.from(tr.children).map(td => td.innerText.trim())
+    );
+  }
+
+  sheet('Executive Summary',[
+    ['Metric','Value'],
+    ['Project Seats', el('sumSeats').textContent],
+    ['Initial Investment', el('sumInvestment').textContent],
+    ['Year 1 EBITDA', el('sumEBITDA').textContent],
+    ['Project IRR', el('sumIRR').textContent],
+    ['Decision', el('sumDecision').textContent],
+    ['Revenue Strength', el('sumRevenueNote').textContent],
+    ['Profitability', el('sumProfitNote').textContent],
+    ['Capital Risk', el('sumRiskNote').textContent],
+    ['Overall View', el('sumOverallNote').textContent]
+  ]);
 
   sheet('Assumptions',[
     ['Metric','Value'],
-    ['Total Built-Up Area',inp('totalBUA')],['Carpet / SBA',inp('carpetSBA')],['Gross Carpet Area',inp('grossCarpet')],
-    ['Sqft Per Seat',inp('sqftPerSeat')],['No. of Seats',inp('noSeats')],['Rental Model',inp('rentalModel')],
-    ['CAM',inp('cam')],['Rent Per Sqft',inp('rentPerSqft')],['Fixed Escalation %',inp('fixedEsc')],
-    ['Lease Free Months',inp('leaseFree')],['Security Deposit Months',inp('secDep')],['Security Deposit Amount',inp('secDepAmt')],
-    ['Brokerage Months',inp('brokMonths')],['Brokerage Amount',inp('brokAmt')]
+    ['Total Built-Up Area',inp('totalBUA')],
+    ['Carpet / SBA',inp('carpetSBA')],
+    ['Gross Carpet Area',inp('grossCarpet')],
+    ['Sqft Per Seat',inp('sqftPerSeat')],
+    ['No. of Seats',inp('noSeats')],
+    ['Rental Model',inp('rentalModel')],
+    ['CAM',inp('cam')],
+    ['Rent Per Sqft',inp('rentPerSqft')],
+    ['Fixed Escalation %',inp('fixedEsc')],
+    ['Lease Free Months',inp('leaseFree')],
+    ['Security Deposit Months',inp('secDep')],
+    ['Security Deposit Amount',inp('secDepAmt')],
+    ['Brokerage Months',inp('brokMonths')],
+    ['Brokerage Amount',inp('brokAmt')]
   ]);
 
   sheet('Fit Out',[
     ['Metric','Value'],
-    ['FO Duration',inp('foDuration')],['FO Cost / Sqft',inp('foCostSqft')],['FO Amortisation Period',inp('foAmortPeriod')],
-    ['FO Dep + Soft Interest',inp('foDepSoft')],['FO FF&E',inp('foFFE')],['FO Exit Months',inp('foExitMonths')],
-    ['Total FO Investment',inp('foTotalInv')],['FO Cost / Seat',inp('foCostSeat')],['Monthly Depreciation',inp('foMonthlyDep')]
+    ['FO Duration',inp('foDuration')],
+    ['FO Cost / Sqft',inp('foCostSqft')],
+    ['FO Amortisation Period',inp('foAmortPeriod')],
+    ['FO Dep + Soft Interest',inp('foDepSoft')],
+    ['FO FF&E',inp('foFFE')],
+    ['FO Exit Months',inp('foExitMonths')],
+    ['Total FO Investment',inp('foTotalInv')],
+    ['FO Cost / Seat',inp('foCostSeat')],
+    ['Monthly Depreciation',inp('foMonthlyDep')]
   ]);
 
   sheet('Occupancy',[
     ['Metric','Value'],
-    ['Target Occupancy %',inp('targetOcc')],['Ramp Months',inp('rampMonths')],['Opening Occupancy %',inp('openOcc')],
-    ['Revenue / Seat / Month',inp('revenuePerSeat')],['Revenue Escalation %',inp('revEsc')],['Customer Brokerage %',inp('custBrok')]
+    ['Target Occupancy %',inp('targetOcc')],
+    ['Ramp Months',inp('rampMonths')],
+    ['Opening Occupancy %',inp('openOcc')],
+    ['Revenue / Seat / Month',inp('revenuePerSeat')],
+    ['Revenue Escalation %',inp('revEsc')],
+    ['Customer Brokerage %',inp('custBrok')]
   ]);
 
   sheet('Expenses',tableRows('#page-expenses table'));
@@ -294,7 +724,7 @@ function exportExcel(){
   XLSX.writeFile(wb,'cowork_financial_model.xlsx');
 }
 
-['fixedEsc','targetOcc','openOcc','revEsc'].forEach(id=>syncS(id,id+'V'));
+['fixedEsc','targetOcc','openOcc','revEsc'].forEach(id => syncS(id,id + 'V'));
 calc();
 </script>
 </body>
